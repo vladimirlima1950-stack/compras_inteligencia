@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pandas
+duckdb
+openpyxl
+xlrd
+xlsxwriter
+python-multipart
