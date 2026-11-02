@@ -278,56 +278,112 @@ def processar_compras():
         # estatísticas
         # --------------------------------
 
-        datas_invalidas = int(
-            df["data_nf"].isna().sum()
+        # --------------------------------
+        # validação de datas
+        # --------------------------------
+
+        linhas_data_invalida = (
+            df[df["data_nf"].isna()]
+            .index
+            .tolist()
         )
 
-        quantidades_invalidas = int(
-            df["quantidade"].isna().sum()
+        if linhas_data_invalida:
+
+            return {
+                "status": "erro",
+                "mensagem":
+                    "Foram encontradas datas inválidas.",
+                "quantidade_erros":
+                    len(linhas_data_invalida),
+                "linhas":
+                    [x + 2 for x in linhas_data_invalida]
+            }
+
+        # --------------------------------
+        # validação de quantidade inválida
+        # --------------------------------
+
+        linhas_quantidade_invalida = (
+            df[df["quantidade"].isna()]
+            .index
+            .tolist()
         )
 
-        custos_invalidos = int(
-            df["custo_unitario"].isna().sum()
+        if linhas_quantidade_invalida:
+
+            return {
+                "status": "erro",
+                "mensagem":
+                    "Foram encontradas quantidades inválidas.",
+                "quantidade_erros":
+                    len(linhas_quantidade_invalida),
+                "linhas":
+                    [x + 2 for x in linhas_quantidade_invalida]
+            }
+
+        # --------------------------------
+        # validação de custo inválido
+        # --------------------------------
+
+        linhas_custo_invalido = (
+            df[df["custo_unitario"].isna()]
+            .index
+            .tolist()
         )
 
-        return {
+        if linhas_custo_invalido:
 
-            "status": "ok",
+            return {
+                "status": "erro",
+                "mensagem":
+                    "Foram encontrados custos inválidos.",
+                "quantidade_erros":
+                    len(linhas_custo_invalido),
+                "linhas":
+                    [x + 2 for x in linhas_custo_invalido]
+            }
 
-            "sistema": "compras_inteligencia",
+        # --------------------------------
+        # quantidade <= 0
+        # --------------------------------
 
-            "arquivo": nome_arquivo,
+        linhas_quantidade_zero = (
+            df[df["quantidade"] <= 0]
+            .index
+            .tolist()
+        )
 
-            "linhas": int(len(df)),
+        if linhas_quantidade_zero:
 
-            "colunas": int(len(df.columns)),
+            return {
+                "status": "erro",
+                "mensagem":
+                    "Existem quantidades menores ou iguais a zero.",
+                "quantidade_erros":
+                    len(linhas_quantidade_zero),
+                "linhas":
+                    [x + 2 for x in linhas_quantidade_zero]
+            }
 
-            "cabecalhos_origem":
-                cabecalhos_origem,
+        # --------------------------------
+        # custo <= 0
+        # --------------------------------
 
-            "nomes_colunas": [
-                "codigo_produto",
-                "codigo_fornecedor",
-                "data_nf",
-                "quantidade",
-                "custo_unitario"
-            ],
+        linhas_custo_zero = (
+            df[df["custo_unitario"] <= 0]
+            .index
+            .tolist()
+        )
 
-            "datas_invalidas":
-                datas_invalidas,
+        if linhas_custo_zero:
 
-            "quantidades_invalidas":
-                quantidades_invalidas,
-
-            "custos_invalidos":
-                custos_invalidos
-
-        }
-
-    except Exception as erro:
-
-        return {
-            "status": "erro",
-            "mensagem": str(erro)
-        }
-        
+            return {
+                "status": "erro",
+                "mensagem":
+                    "Existem custos unitários menores ou iguais a zero.",
+                "quantidade_erros":
+                    len(linhas_custo_zero),
+                "linhas":
+                    [x + 2 for x in linhas_custo_zero]
+            }
