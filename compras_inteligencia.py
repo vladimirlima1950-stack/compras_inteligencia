@@ -178,6 +178,8 @@ def obter_ultimo_arquivo():
 
 @app.get("/processar_compras")
 def processar_compras(request: Request):
+    
+    print("***** ENTREI EM PROCESSAR_COMPRAS *****", flush=True)
 
     email_cliente = request.query_params.get("email")
     nome_cliente = request.query_params.get("nome")
@@ -555,6 +557,8 @@ def enviar_email_erro(
     nome_arquivo,
     mensagem_erro
 ):
+    
+    print("***** ENTREI EM ENVIAR_EMAIL_ERRO *****", flush=True)
 
     api_key = os.getenv("RESEND_API_KEY")
 
@@ -643,6 +647,8 @@ def retornar_erro(
     quantidade,
     linhas
 ):
+
+    print("***** ENTREI EM RETORNAR_ERRO *****", flush=True)
 
     if email_cliente:
 
