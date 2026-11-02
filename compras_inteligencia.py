@@ -608,11 +608,9 @@ def enviar_email_erro(
         "Content-Type": "application/json"
     }
 
-    
-
-       
-     try:
-
+ 
+    try:
+ 
         r = requests.post(
             "https://api.resend.com/emails",
             json=payload,
