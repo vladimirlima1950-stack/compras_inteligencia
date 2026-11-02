@@ -3,4 +3,5 @@ uvicorn
 pandas
 openpyxl
 xlrd
+requests
 python-multipart
