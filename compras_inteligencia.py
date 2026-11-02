@@ -179,6 +179,10 @@ def obter_ultimo_arquivo():
 @app.get("/processar_compras")
 def processar_compras(request: Request):
     
+    return {
+        "VERSAO": "02-NOV-2026"
+    }
+    
     print("***** ENTREI EM PROCESSAR_COMPRAS *****", flush=True)
 
     email_cliente = request.query_params.get("email")
@@ -376,7 +380,7 @@ def processar_compras(request: Request):
 
         if linhas_quantidade_invalida:
 
-        print(">>> ENTROU NA VALIDAÇÃO DE QUANTIDADE <<<")
+            print(">>> ENTROU NA VALIDAÇÃO DE QUANTIDADE <<<")
 
             linhas_excel = [
                 x + 2
