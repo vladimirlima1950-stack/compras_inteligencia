@@ -1,14 +1,12 @@
-from fastapi import FastAPI, Request
 from pathlib import Path
 import pandas as pd
 import glob
-
 import requests
 import os
 
-app = FastAPI(
-    title="Compras Inteligência"
-)
+
+
+
 
 UPLOAD_DIR = "uploads"
 
@@ -17,13 +15,6 @@ UPLOAD_DIR = "uploads"
 # HOME
 # =====================================================
 
-@app.get("/")
-def home():
-
-    return {
-        "sistema": "compras_inteligencia",
-        "status": "online"
-    }
 
 
 # =====================================================
@@ -176,17 +167,16 @@ def obter_ultimo_arquivo():
 # PROCESSAMENTO
 # =====================================================
 
-@app.get("/processar_compras")
-def processar_compras(request: Request):
+def processar_compras(
+    email_cliente,
+    nome_cliente
+):
     
-    return {
-        "VERSAO": "02-NOV-2026"
-    }
+    
     
     print("***** ENTREI EM PROCESSAR_COMPRAS *****", flush=True)
 
-    email_cliente = request.query_params.get("email")
-    nome_cliente = request.query_params.get("nome")
+    
     
     
     if not email_cliente:
