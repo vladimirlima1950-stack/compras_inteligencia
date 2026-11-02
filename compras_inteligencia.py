@@ -181,6 +181,21 @@ def processar_compras(request: Request):
 
     email_cliente = request.query_params.get("email")
     nome_cliente = request.query_params.get("nome")
+    
+    
+    if not email_cliente:
+
+        return {
+            "status": "erro",
+            "mensagem": "Email do cliente não informado."
+        }
+
+    if not nome_cliente:
+
+        return {
+            "status": "erro",
+            "mensagem": "Nome do cliente não informado."
+        }
 
     caminho = obter_ultimo_arquivo()
 
@@ -226,7 +241,7 @@ def processar_compras(request: Request):
             for c in df.columns
         ]
 
-        if any(c == "" for c in cabecalhos):
+        if any(not str(c).strip() for c in cabecalhos):
 
             
             return retornar_erro(
@@ -268,6 +283,9 @@ def processar_compras(request: Request):
         df["data_nf"] = converter_data(
             df["data_nf"]
         )
+        print("=== DATA NF ===")
+        print(df["data_nf"])
+        print("================")
 
         # --------------------------------
         # conversão quantidade
@@ -470,6 +488,9 @@ def processar_compras(request: Request):
         return {
 
             "status": "ok",
+            
+            "mensagem":
+                "Arquivo validado com sucesso.",
 
             "sistema":
                 "compras_inteligencia",
@@ -495,6 +516,8 @@ def processar_compras(request: Request):
             ]
         }
 
+
+        
 
     except Exception as e:
 
@@ -604,6 +627,8 @@ def retornar_erro(
             mensagem_erro=mensagem
         )
 
+
+
     return {
         "status": "erro",
         "mensagem": mensagem,
@@ -611,4 +636,4 @@ def retornar_erro(
         "linhas": linhas
     }
 
-    
+ 
