@@ -215,6 +215,13 @@ def processar_compras(request: Request):
 
         df = carregar_arquivo(caminho)
 
+        print("========== DATAFRAME ==========")
+        print(df)
+        print("===============================")
+        
+        
+
+
         # --------------------------------
         # valida número mínimo de colunas
         # --------------------------------
@@ -295,6 +302,8 @@ def processar_compras(request: Request):
             df["quantidade"]
             .apply(converter_numero)
         )
+        
+        
 
         print("=== COLUNA QUANTIDADE ===")
         print(df["quantidade"])
