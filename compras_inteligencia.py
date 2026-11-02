@@ -608,25 +608,32 @@ def enviar_email_erro(
         "Content-Type": "application/json"
     }
 
-    try:
+    
+
+       
+     try:
 
         r = requests.post(
             "https://api.resend.com/emails",
             json=payload,
-            headers=headers
+            headers=headers,
+            timeout=30
         )
 
-        print(
-            "RESEND STATUS:",
-            r.status_code
-        )
+        print("RESEND STATUS:", r.status_code)
+        print("RESEND RESPOSTA:", r.text)
+
+        r.raise_for_status()
+
+        print("EMAIL ENVIADO COM SUCESSO.")
 
     except Exception as e:
 
-        print(
-            "Erro envio email:",
-            e
-        )
+        print("ERRO NO ENVIO DO EMAIL:", str(e))
+       
+       
+       
+       
         
 def retornar_erro(
     nome_cliente,
