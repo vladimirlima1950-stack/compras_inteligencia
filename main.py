@@ -4,7 +4,6 @@ import os
 
 app = FastAPI()
 
-# Pasta de uploads
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
@@ -22,46 +21,37 @@ async def upload_compras(file: UploadFile = File(...)):
 
     try:
 
-        # Salva o arquivo recebido
         caminho = os.path.join(
             UPLOAD_DIR,
             file.filename
         )
 
+        # Salva o arquivo enviado
         with open(caminho, "wb") as f:
             f.write(await file.read())
 
-        # Leitura do arquivo
-        extensao = file.filename.lower()
+        # Lê o arquivo
+        if file.filename.lower().endswith(".csv"):
 
-        if extensao.endswith(".csv"):
-
-            # tenta separador ; primeiro
             try:
                 df = pd.read_csv(
                     caminho,
                     sep=";",
                     dtype=str
                 )
-            except:
+
+            except Exception:
                 df = pd.read_csv(
                     caminho,
                     dtype=str
                 )
 
-        elif extensao.endswith(".xls") or extensao.endswith(".xlsx"):
+        else:
 
             df = pd.read_excel(
                 caminho,
                 dtype=str
             )
-
-        else:
-
-            return {
-                "status": "erro",
-                "mensagem": "Formato nao suportado"
-            }
 
         return {
             "status": "ok",
