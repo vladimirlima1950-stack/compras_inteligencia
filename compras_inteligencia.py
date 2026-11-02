@@ -296,6 +296,10 @@ def processar_compras(request: Request):
             .apply(converter_numero)
         )
 
+        print("=== COLUNA QUANTIDADE ===")
+        print(df["quantidade"])
+        print("========================")
+
         # --------------------------------
         # conversão custo unitário
         # --------------------------------
@@ -351,6 +355,12 @@ def processar_compras(request: Request):
             df[df["quantidade"].isna()]
             .index
             .tolist()
+        )
+
+
+        print(
+            "LINHAS_QUANTIDADE_INVALIDA:",
+            linhas_quantidade_invalida
         )
 
         if linhas_quantidade_invalida:
