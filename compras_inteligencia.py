@@ -1,7 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from pathlib import Path
 import pandas as pd
 import glob
+
+import requests
+import os
 
 app = FastAPI(
     title="Compras Inteligência"
@@ -174,7 +177,10 @@ def obter_ultimo_arquivo():
 # =====================================================
 
 @app.get("/processar_compras")
-def processar_compras():
+def processar_compras(request: Request):
+
+    email_cliente = request.query_params.get("email")
+    nome_cliente = request.query_params.get("nome")
 
     caminho = obter_ultimo_arquivo()
 
@@ -200,15 +206,17 @@ def processar_compras():
 
         if len(df.columns) < 5:
 
-            return {
-                "status": "erro",
-                "mensagem": (
-                    "Arquivo inválido. "
-                    "São necessárias pelo menos "
-                    "5 colunas."
-                )
-            }
-
+           return retornar_erro(
+                nome_cliente,
+                email_cliente,
+                nome_arquivo,
+                "Arquivo possui menos de 5 colunas.",
+                0,
+                []
+           )
+                       
+           
+           
         # --------------------------------
         # cabeçalhos obrigatórios
         # --------------------------------
@@ -220,14 +228,19 @@ def processar_compras():
 
         if any(c == "" for c in cabecalhos):
 
-            return {
-                "status": "erro",
-                "mensagem": (
-                    "Existem colunas sem nome "
-                    "no cabeçalho."
-                )
-            }
-
+            
+            return retornar_erro(
+                nome_cliente,
+                email_cliente,
+                nome_arquivo,
+                "Existem colunas sem nome no cabeçalho.",
+                0,
+                []
+            )
+                    
+            
+            
+            
         # --------------------------------
         # usa apenas as 5 primeiras colunas
         # --------------------------------
@@ -288,18 +301,30 @@ def processar_compras():
             .tolist()
         )
 
+        
         if linhas_data_invalida:
 
-            return {
-                "status": "erro",
-                "mensagem":
-                    "Foram encontradas datas inválidas.",
-                "quantidade_erros":
-                    len(linhas_data_invalida),
-                "linhas":
-                    [x + 2 for x in linhas_data_invalida]
-            }
+            linhas_excel = [
+                x + 2
+                for x in linhas_data_invalida
+            ]
 
+            mensagem = (
+                "Foram encontradas datas inválidas.\n"
+                f"Linhas: {linhas_excel}"
+            )
+
+            
+            return retornar_erro(
+                nome_cliente,
+                email_cliente,
+                nome_arquivo,
+                mensagem,
+                len(linhas_excel),
+                linhas_excel
+            )
+                    
+        
         # --------------------------------
         # validação de quantidade inválida
         # --------------------------------
@@ -312,16 +337,28 @@ def processar_compras():
 
         if linhas_quantidade_invalida:
 
-            return {
-                "status": "erro",
-                "mensagem":
-                    "Foram encontradas quantidades inválidas.",
-                "quantidade_erros":
-                    len(linhas_quantidade_invalida),
-                "linhas":
-                    [x + 2 for x in linhas_quantidade_invalida]
-            }
+            linhas_excel = [
+                x + 2
+                for x in linhas_quantidade_invalida
+            ]
 
+            mensagem = (
+                "Foram encontradas quantidades inválidas.\n"
+                f"Linhas: {linhas_excel}"
+            )
+
+            return retornar_erro(
+                nome_cliente,
+                email_cliente,
+                nome_arquivo,
+                mensagem,
+                len(linhas_excel),
+                linhas_excel
+            )
+                
+        
+        
+        
         # --------------------------------
         # validação de custo inválido
         # --------------------------------
@@ -334,16 +371,29 @@ def processar_compras():
 
         if linhas_custo_invalido:
 
-            return {
-                "status": "erro",
-                "mensagem":
-                    "Foram encontrados custos inválidos.",
-                "quantidade_erros":
-                    len(linhas_custo_invalido),
-                "linhas":
-                    [x + 2 for x in linhas_custo_invalido]
-            }
+            linhas_excel = [
+                x + 2
+                for x in linhas_custo_invalido
+            ]
 
+            mensagem = (
+                "Foram encontrados custos inválidos.\n"
+                f"Linhas: {linhas_excel}"
+            )
+
+            return retornar_erro(
+                nome_cliente,
+                email_cliente,
+                nome_arquivo,
+                mensagem,
+                len(linhas_excel),
+                linhas_excel
+            )
+                
+        
+        
+        
+        
         # --------------------------------
         # quantidade <= 0
         # --------------------------------
@@ -356,16 +406,28 @@ def processar_compras():
 
         if linhas_quantidade_zero:
 
-            return {
-                "status": "erro",
-                "mensagem":
-                    "Existem quantidades menores ou iguais a zero.",
-                "quantidade_erros":
-                    len(linhas_quantidade_zero),
-                "linhas":
-                    [x + 2 for x in linhas_quantidade_zero]
-            }
+            linhas_excel = [
+                x + 2
+                for x in linhas_quantidade_zero
+            ]
 
+            mensagem = (
+                "Existem quantidades menores ou iguais a zero.\n"
+                f"Linhas: {linhas_excel}"
+            )
+
+            return retornar_erro(
+                nome_cliente,
+                email_cliente,
+                nome_arquivo,
+                mensagem,
+                len(linhas_excel),
+                linhas_excel
+            )
+                
+        
+        
+        
         # --------------------------------
         # custo <= 0
         # --------------------------------
@@ -378,12 +440,175 @@ def processar_compras():
 
         if linhas_custo_zero:
 
-            return {
-                "status": "erro",
-                "mensagem":
-                    "Existem custos unitários menores ou iguais a zero.",
-                "quantidade_erros":
-                    len(linhas_custo_zero),
-                "linhas":
-                    [x + 2 for x in linhas_custo_zero]
-            }
+            linhas_excel = [
+                x + 2
+                for x in linhas_custo_zero
+            ]
+
+            mensagem = (
+                "Existem custos unitários menores ou iguais a zero.\n"
+                f"Linhas: {linhas_excel}"
+            )
+
+            return retornar_erro(
+                nome_cliente,
+                email_cliente,
+                nome_arquivo,
+                mensagem,
+                len(linhas_excel),
+                linhas_excel
+            )
+
+
+
+
+
+        # --------------------------------
+        # PROCESSAMENTO VALIDADO
+        # --------------------------------
+
+        return {
+
+            "status": "ok",
+
+            "sistema":
+                "compras_inteligencia",
+
+            "arquivo":
+                nome_arquivo,
+
+            "linhas":
+                int(len(df)),
+
+            "colunas":
+                int(len(df.columns)),
+
+            "cabecalhos_origem":
+                cabecalhos_origem,
+
+            "nomes_colunas": [
+                "codigo_produto",
+                "codigo_fornecedor",
+                "data_nf",
+                "quantidade",
+                "custo_unitario"
+            ]
+        }
+
+
+    except Exception as e:
+
+        return {
+             "status": "erro",
+             "mensagem": str(e)
+        }
+
+
+
+
+        
+def enviar_email_erro(
+    nome_cliente,
+    email_destino,
+    nome_arquivo,
+    mensagem_erro
+):
+
+    api_key = os.getenv("RESEND_API_KEY")
+
+    if not api_key:
+
+        print("RESEND_API_KEY não encontrada.")
+        return
+
+    html_body = f"""
+    <h2>Processamento interrompido</h2>
+
+    <p>Olá, {nome_cliente}.</p>
+
+    <p>
+    O arquivo <b>{nome_arquivo}</b> não pôde ser processado pelo sistema
+    Compras Inteligência.
+    </p>
+
+    <p>
+    Motivo:
+    </p>
+
+    <pre>
+{mensagem_erro}
+    </pre>
+
+    <p>
+    Arquivo analisado:
+    <b>{nome_arquivo}</b>
+    </p>
+
+    <p>
+    Corrija os dados da planilha e realize um novo envio.
+    </p>
+
+    <p>
+    Atenciosamente<br>
+    MUPE Consultoria
+    </p>
+    """
+
+    payload = {
+        "from": "MUPE Consultoria <vladimir.lima@mupeconsult.com>",
+        "to": [email_destino],
+        "subject": "Erro no processamento do Compras Inteligência",
+        "html": html_body
+    }
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+
+    try:
+
+        r = requests.post(
+            "https://api.resend.com/emails",
+            json=payload,
+            headers=headers
+        )
+
+        print(
+            "RESEND STATUS:",
+            r.status_code
+        )
+
+    except Exception as e:
+
+        print(
+            "Erro envio email:",
+            e
+        )
+        
+def retornar_erro(
+    nome_cliente,
+    email_cliente,
+    nome_arquivo,
+    mensagem,
+    quantidade,
+    linhas
+):
+
+    if email_cliente:
+
+        enviar_email_erro(
+            nome_cliente=nome_cliente or "Cliente",
+            email_destino=email_cliente,
+            nome_arquivo=nome_arquivo,
+            mensagem_erro=mensagem
+        )
+
+    return {
+        "status": "erro",
+        "mensagem": mensagem,
+        "quantidade_erros": quantidade,
+        "linhas": linhas
+    }
+
+    
