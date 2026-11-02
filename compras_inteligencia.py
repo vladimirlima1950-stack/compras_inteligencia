@@ -376,6 +376,8 @@ def processar_compras(request: Request):
 
         if linhas_quantidade_invalida:
 
+        print(">>> ENTROU NA VALIDAÇÃO DE QUANTIDADE <<<")
+
             linhas_excel = [
                 x + 2
                 for x in linhas_quantidade_invalida
