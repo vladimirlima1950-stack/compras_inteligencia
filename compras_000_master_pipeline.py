@@ -6,4 +6,5 @@
 # ============================================================
 
 from compras_010_valida_arquivo import processar_compras
+from compras_020_fato_compras import processar_compras
 
