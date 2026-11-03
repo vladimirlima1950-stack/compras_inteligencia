@@ -3,7 +3,7 @@ import pandas as pd
 import glob
 import requests
 import os
-
+import duckdb
 
 
 
@@ -173,10 +173,7 @@ def processar_compras(
 ):
     
     
-    
-    print("***** ENTREI EM PROCESSAR_COMPRAS *****", flush=True)
-
-    
+       
     
     
     if not email_cliente:
@@ -211,10 +208,6 @@ def processar_compras(
 
         df = carregar_arquivo(caminho)
 
-        print("========== DATAFRAME ==========")
-        print(df)
-        print("===============================")
-        
         
 
 
@@ -286,10 +279,7 @@ def processar_compras(
         df["data_nf"] = converter_data(
             df["data_nf"]
         )
-        print("=== DATA NF ===")
-        print(df["data_nf"])
-        print("================")
-
+        
         # --------------------------------
         # conversão quantidade
         # --------------------------------
@@ -301,10 +291,7 @@ def processar_compras(
         
         
 
-        print("=== COLUNA QUANTIDADE ===")
-        print(df["quantidade"])
-        print("========================")
-
+        
         # --------------------------------
         # conversão custo unitário
         # --------------------------------
@@ -363,14 +350,11 @@ def processar_compras(
         )
 
 
-        print(
-            "LINHAS_QUANTIDADE_INVALIDA:",
-            linhas_quantidade_invalida
-        )
+       
 
         if linhas_quantidade_invalida:
 
-            print(">>> ENTROU NA VALIDAÇÃO DE QUANTIDADE <<<")
+            
 
             linhas_excel = [
                 x + 2
@@ -494,7 +478,37 @@ def processar_compras(
                 linhas_excel
             )
 
+        
+        # --------------------------------
+        # CRIAÇÃO DA TABELA TB_COMPRAS_VALIDADA
+        # --------------------------------
 
+        caminho_banco = "compras.duckdb"
+
+        con = duckdb.connect(
+            caminho_banco,
+            read_only=False
+        )
+
+        con.execute("""
+            DROP TABLE IF EXISTS
+            tb_compras_validada
+        """)
+
+        con.register(
+            "df_compras_validada",
+            df
+        )
+
+        con.execute("""
+            CREATE TABLE tb_compras_validada AS
+
+            SELECT *
+
+            FROM df_compras_validada
+        """)
+
+        con.close()
 
 
 
@@ -505,6 +519,7 @@ def processar_compras(
         return {
 
             "status": "ok",
+            
             
             "mensagem":
                 "Arquivo validado com sucesso.",
@@ -554,7 +569,7 @@ def enviar_email_erro(
     mensagem_erro
 ):
     
-    print("***** ENTREI EM ENVIAR_EMAIL_ERRO *****", flush=True)
+    
 
     api_key = os.getenv("RESEND_API_KEY")
 
@@ -642,7 +657,7 @@ def retornar_erro(
     linhas
 ):
 
-    print("***** ENTREI EM RETORNAR_ERRO *****", flush=True)
+    
 
     if email_cliente:
 
