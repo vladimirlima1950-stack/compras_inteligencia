@@ -5,7 +5,9 @@
 # PIPELINE MESTRE
 # ============================================================
 
-from compras_010_valida_arquivo import processar_compras
+from compras_010_valida_arquivo import (
+    processar_compras as validar_arquivo
+)
 
 
 # ============================================================
