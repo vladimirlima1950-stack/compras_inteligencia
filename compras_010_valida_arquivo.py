@@ -483,7 +483,7 @@ def processar_compras(
         # CRIAÇÃO DA TABELA TB_COMPRAS_VALIDADA
         # --------------------------------
 
-        caminho_banco = "compras.duckdb"
+        caminho_banco = "compras_inteligencia.duckdb"
 
         con = duckdb.connect(
             caminho_banco,
@@ -507,6 +507,18 @@ def processar_compras(
 
             FROM df_compras_validada
         """)
+        
+        
+        total = con.execute("""
+            SELECT COUNT(*)
+            FROM tb_compras_validada
+        """).fetchone()[0]
+
+        print(
+            f"tb_compras_validada criada com {total} registros."
+        )
+
+        
 
         con.close()
 
