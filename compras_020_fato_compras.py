@@ -54,6 +54,42 @@ def run(caminho_banco):
         FROM tb_fato_compras
     """).fetchone()[0]
 
+
+periodo = con.execute("""
+
+    SELECT
+
+        MIN(data_nf),
+        MAX(data_nf)
+
+    FROM tb_fato_compras
+
+""").fetchone()
+
+print(
+    f"Período encontrado: "
+    f"{periodo[0]} até {periodo[1]}"
+)
+
+
+amostra = con.execute("""
+
+    SELECT
+
+        codigo_produto,
+        quantidade,
+        custo_unitario,
+        valor_total,
+        ano_mes
+
+    FROM tb_fato_compras
+
+    LIMIT 5
+
+""").fetchall()
+
+print(amostra)
+
     print(
         f"tb_fato_compras criada com {total} registros."
     )
