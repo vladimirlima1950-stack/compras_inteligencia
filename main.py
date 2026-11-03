@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile, File
-from compras_inteligencia import processar_compras
+from compras_000_master_pipeline import processar_compras
 import pandas as pd
 import os
 
