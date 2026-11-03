@@ -5,36 +5,5 @@
 # PIPELINE MESTRE
 # ============================================================
 
-from compras_010_valida_arquivo import (
-    processar_compras as validar_arquivo
-)
+from compras_010_valida_arquivo import processar_compras
 
-
-# ============================================================
-# PIPELINE PRINCIPAL
-# ============================================================
-
-def processar_compras_pipeline(
-    email_cliente,
-    nome_cliente
-):
-
-    return processar_compras(
-        email_cliente=email_cliente,
-        nome_cliente=nome_cliente
-    )
-
-
-# ============================================================
-# COMPATIBILIDADE COM MAIN.PY
-# ============================================================
-
-def processar_compras(
-    email_cliente,
-    nome_cliente
-):
-
-    return processar_compras_pipeline(
-        email_cliente=email_cliente,
-        nome_cliente=nome_cliente
-    )
