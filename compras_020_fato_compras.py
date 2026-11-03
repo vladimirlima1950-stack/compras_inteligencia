@@ -1,11 +1,9 @@
-# compras_020_fato_compras.py
+# ============================================================
+# CRIAÇÃO DA TABELA TB_FATO_COMPRAS
+# ============================================================
 
 import duckdb
 
-
-# ============================================================
-# CRIAÇÃO DA TABELA FATO_COMPRAS
-# ============================================================
 
 def run(caminho_banco):
 
@@ -14,17 +12,10 @@ def run(caminho_banco):
         read_only=False
     )
 
-    # --------------------------------------------------------
-    # Remove tabela anterior (se existir)
-    # --------------------------------------------------------
-
     con.execute("""
-        DROP TABLE IF EXISTS tb_fato_compras
+        DROP TABLE IF EXISTS
+        tb_fato_compras
     """)
-
-    # --------------------------------------------------------
-    # Cria tabela fato_compras
-    # --------------------------------------------------------
 
     con.execute("""
         CREATE TABLE tb_fato_compras AS
@@ -53,19 +44,18 @@ def run(caminho_banco):
             STRFTIME(
                 data_nf,
                 '%Y-%m'
-            )
-                AS ano_mes
+            ) AS ano_mes
 
         FROM tb_compras_validada
     """)
 
-    total_registros = con.execute("""
+    total = con.execute("""
         SELECT COUNT(*)
         FROM tb_fato_compras
     """).fetchone()[0]
 
     print(
-        f"tb_fato_compras criada ({total_registros} registros)"
+        f"tb_fato_compras criada com {total} registros."
     )
 
     con.close()
