@@ -87,6 +87,10 @@ def run(caminho_banco):
 
     """).fetchall()
 
-    print(amostra)
+    print(
+    
+        f"Primeiro fornecedor ABC: "
+        f"{amostra[0]}"
+    )
 
     con.close()
