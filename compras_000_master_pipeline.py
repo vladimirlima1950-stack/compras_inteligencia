@@ -9,6 +9,9 @@ from compras_010_valida_arquivo import (
 
 from compras_020_fato_compras import run as fato_compras
 
+from compras_030_dim_calendario import (
+    run as dim_calendario
+)
 
 # ============================================================
 # PIPELINE PRINCIPAL
@@ -35,4 +38,11 @@ def processar_compras(
         caminho_banco
     )
 
+    dim_calendario(
+        caminho_banco
+    )
+
+
     return resultado
+    
+    
