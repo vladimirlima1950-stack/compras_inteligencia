@@ -65,7 +65,9 @@ from compras_170_ranking_saving import (
     run as ranking_saving
 )
 
-
+from compras_180_resumo_saving import (
+    run as resumo_saving
+)
 
 # ============================================================
 # PIPELINE PRINCIPAL
@@ -145,6 +147,11 @@ def processar_compras(
     ranking_saving(
         caminho_banco
     )
+
+    resumo_saving(
+        caminho_banco
+    )
+
 
 
 
