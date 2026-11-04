@@ -93,6 +93,8 @@ def run(caminho_banco):
 
     """).fetchone()
 
+    print(relatorio)
+
     print(
         "\n======== RELATORIO EXECUTIVO ========\n"
     )
