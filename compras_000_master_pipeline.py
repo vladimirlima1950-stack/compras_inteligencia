@@ -115,9 +115,9 @@ def processar_compras(
         caminho_banco
     )
 
-curva_abc_produtos(
-    caminho_banco
-)
+    curva_abc_produtos(
+        caminho_banco
+    )
 
 
 
