@@ -38,6 +38,11 @@ from compras_110_ranking_fornecedores import (
     run as ranking_fornecedores
 )
 
+from compras_120_curva_abc_fornecedores import (
+    run as curva_abc_fornecedores
+)
+
+
 
 # ============================================================
 # PIPELINE PRINCIPAL
@@ -90,6 +95,11 @@ def processar_compras(
     )
 
     ranking_fornecedores(
+        caminho_banco
+    )
+
+
+    curva_abc_fornecedores(
         caminho_banco
     )
 
