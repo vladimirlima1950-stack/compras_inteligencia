@@ -17,6 +17,10 @@ from compras_040_compras_mensais import (
     run as compras_mensais
 )
 
+from compras_050_produto_mes import (
+    run as produto_mes
+)
+
 
 # ============================================================
 # PIPELINE PRINCIPAL
@@ -52,6 +56,17 @@ def processar_compras(
     compras_mensais(
         caminho_banco
     )
+
+    produto_mes(
+        caminho_banco
+    )
+
+
+
+
+
+
+
 
     return resultado
     
