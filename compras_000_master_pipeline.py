@@ -81,6 +81,11 @@ from compras_300_relatorio_excel import (
     run as relatorio_excel
 )
 
+from compras_310_formatacao_excel import (
+    run as formatar_excel
+)
+
+
 from compras_330_envio_email import (
     run as enviar_email
 )
@@ -179,6 +184,11 @@ def processar_compras(
 
     arquivo_excel = relatorio_excel(
         caminho_banco
+    )
+    
+    
+    arquivo_excel = formatar_excel(
+        arquivo_excel
     )
     
     
