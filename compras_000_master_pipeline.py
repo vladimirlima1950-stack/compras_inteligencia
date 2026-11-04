@@ -13,6 +13,11 @@ from compras_030_dim_calendario import (
     run as dim_calendario
 )
 
+from compras_040_compras_mensais import (
+    run as compras_mensais
+)
+
+
 # ============================================================
 # PIPELINE PRINCIPAL
 # ============================================================
@@ -42,6 +47,11 @@ def processar_compras(
         caminho_banco
     )
 
+
+
+    compras_mensais(
+        caminho_banco
+    )
 
     return resultado
     
