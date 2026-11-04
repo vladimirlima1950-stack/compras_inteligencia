@@ -73,6 +73,11 @@ from compras_190_inflacao_compras import (
     run as inflacao_compras
 )
 
+from compras_200_relatorio_executivo import (
+    run as relatorio_executivo
+)
+
+
 
 
 # ============================================================
@@ -161,6 +166,11 @@ def processar_compras(
     inflacao_compras(
         caminho_banco
     )
+
+    relatorio_executivo(
+        caminho_banco
+    )
+
 
 
 
