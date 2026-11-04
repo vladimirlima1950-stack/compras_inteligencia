@@ -77,7 +77,9 @@ from compras_200_relatorio_executivo import (
     run as relatorio_executivo
 )
 
-
+from compras_300_relatorio_excel import (
+    run as relatorio_excel
+)
 
 
 # ============================================================
@@ -171,6 +173,9 @@ def processar_compras(
         caminho_banco
     )
 
+    relatorio_excel(
+        caminho_banco
+    )
 
 
 
