@@ -76,109 +76,89 @@ def run(caminho_banco):
                 codigo_produto,
                 codigo_fornecedor
 
+        ),
+
+        base AS (
+
+            SELECT
+
+                u.codigo_produto,
+
+                u.codigo_fornecedor,
+
+                u.ano_mes
+                    AS ultimo_mes,
+
+                u.custo_medio
+                    AS custo_atual,
+
+                m.menor_custo_historico,
+
+                ROUND(
+
+                    u.custo_medio
+                    - m.menor_custo_historico,
+
+                    2
+
+                ) AS saving_absoluto,
+
+                ROUND(
+
+                    (
+
+                        u.custo_medio
+                        - m.menor_custo_historico
+
+                    )
+
+                    * 100.0
+
+                    /
+
+                    NULLIF(
+                        m.menor_custo_historico,
+                        0
+                    ),
+
+                    2
+
+                ) AS saving_percentual
+
+            FROM ultimo_preco u
+
+            INNER JOIN menor_preco m
+
+                ON u.codigo_produto =
+                   m.codigo_produto
+
+               AND u.codigo_fornecedor =
+                   m.codigo_fornecedor
+
+            WHERE
+
+                u.custo_medio >
+                m.menor_custo_historico
+
         )
 
         SELECT
 
-            u.codigo_produto,
+            *,
 
-            u.codigo_fornecedor,
-
-            u.ano_mes
-                AS ultimo_mes,
-
-            u.custo_medio
-                AS custo_atual,
-
-            m.menor_custo_historico,
-
-            ROUND(
-
-                u.custo_medio
-                - m.menor_custo_historico,
-
-                2
-
-            ) AS saving_absoluto,
-
-            ROUND(
-
-                (
-                    u.custo_medio
-                    - m.menor_custo_historico
-                )
-
-                * 100.0
-
-                /
-
-                NULLIF(
-                    m.menor_custo_historico,
-                    0
-                ),
-
-                2
-
-            ) AS saving_percentual,
             CASE
 
-                WHEN
-
-                    ROUND(
-                        (
-                            u.custo_medio
-                            - m.menor_custo_historico
-                        )
-                        * 100.0
-                        /
-                        NULLIF(
-                            m.menor_custo_historico,
-                            0
-                        ),
-                        2
-                    ) > 200
-
+                WHEN saving_percentual > 200
                 THEN 'ANOMALIA'
 
-                WHEN
-
-                    ROUND(
-                        (
-                            u.custo_medio
-                            - m.menor_custo_historico
-                        )
-                        * 100.0
-                        /
-                        NULLIF(
-                            m.menor_custo_historico,
-                            0
-                        ),
-                        2
-                    ) > 50
-
+                WHEN saving_percentual > 50
                 THEN 'ATENCAO'
 
                 ELSE 'NORMAL'
 
             END AS status
-            
-            
-            
 
-        FROM ultimo_preco u
-
-        INNER JOIN menor_preco m
-
-            ON u.codigo_produto =
-               m.codigo_produto
-
-           AND u.codigo_fornecedor =
-               m.codigo_fornecedor
-
-        WHERE
-
-            u.custo_medio >
-            m.menor_custo_historico
+        FROM base
 
     """)
 
