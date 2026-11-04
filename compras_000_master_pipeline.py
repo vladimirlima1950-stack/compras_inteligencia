@@ -30,6 +30,11 @@ from compras_070_produto_fornecedor_mes import (
     run as produto_fornecedor_mes
 )
 
+from compras_100_resumo_executivo import (
+    run as resumo_executivo
+)
+
+
 # ============================================================
 # PIPELINE PRINCIPAL
 # ============================================================
@@ -75,6 +80,11 @@ def processar_compras(
     produto_fornecedor_mes(
         caminho_banco
     )
+
+    resumo_executivo(
+        caminho_banco
+    )
+
 
 
 
