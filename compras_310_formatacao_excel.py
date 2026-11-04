@@ -83,7 +83,10 @@ def formatar_cabecalho(ws):
         bold=True
     )
 
-    for cell in wscell.fill = azul
+    for cell in ws[1]:
+
+        cell.fill = azul
+
         cell.font = fonte
 
         cell.alignment = Alignment(
@@ -558,50 +561,80 @@ def run(arquivo_excel):
 # compras_310_formatacao_excel.py
 
 # ============================================================
-# FORMATAÇÃO DO RELATÓRIO EXCEL
+# COMPRAS INTELIGENCIA
+# FORMATACAO EXCEL
 # ============================================================
 
 from openpyxl import load_workbook
+
 from openpyxl.styles import (
     Font,
     PatternFill,
     Alignment
 )
 
+# ============================================================
+# CORES
+# ============================================================
 
-def ajustar_largura(ws):
+COR_CABECALHO = "1F4E78"
 
-    for coluna in ws.columns:
+COR_VERDE = "92D050"
+COR_AMARELO = "FFD966"
+COR_VERMELHO = "FF9999"
 
-        largura = 0
+COR_ZEBRA = "F2F2F2"
 
-        letra_coluna = coluna[0].column_letter
+# ============================================================
+# CABECALHOS AMIGAVEIS
+# ============================================================
 
-        for celula in coluna:
+MAPA_CABECALHOS = {
 
-            try:
+    "codigo_produto":
+        "Produto",
 
-                if celula.value:
+    "codigo_fornecedor":
+        "Fornecedor",
 
-                    largura = max(
-                        largura,
-                        len(str(celula.value))
-                    )
+    "valor_comprado":
+        "Valor Comprado",
 
-            except:
+    "percentual":
+        "Participação (%)",
 
-                pass
+    "percentual_acumulado":
+        "Acumulado (%)",
 
-        ws.column_dimensions[
-            letra_coluna
-        ].width = largura + 3
+    "classe":
+        "Classe ABC",
 
+    "saving_absoluto":
+        "Saving",
+
+    "saving_percentual":
+        "Saving (%)",
+
+    "ultimo_mes":
+        "Última Compra",
+
+    "custo_atual":
+        "Custo Atual",
+
+    "menor_custo_historico":
+        "Menor Custo Histórico"
+
+}
+
+# ============================================================
+# FORMATACAO CABECALHO
+# ============================================================
 
 def formatar_cabecalho(ws):
 
     azul = PatternFill(
         "solid",
-        fgColor="1F4E78"
+        fgColor=COR_CABECALHO
     )
 
     fonte = Font(
@@ -609,16 +642,176 @@ def formatar_cabecalho(ws):
         bold=True
     )
 
-    for celula in ws[1]:
+    for cell in wscell.fill = azul
+        cell.font = fonte
 
-        celula.fill = azul
-
-        celula.font = fonte
-
-        celula.alignment = Alignment(
-            horizontal="center"
+        cell.alignment = Alignment(
+            horizontal="center",
+            vertical="center"
         )
 
+# ============================================================
+# AJUSTE COLUNAS
+# ============================================================
+
+def ajustar_largura(ws):
+
+    for coluna in ws.columns:
+
+        largura = 0
+
+        letra = coluna[0].column_letter
+
+        for celula in coluna:
+
+            try:
+
+                if celula.value is not None:
+
+                    largura = max(
+                        largura,
+                        len(str(celula.value))
+                    )
+
+            except:
+                pass
+
+        ws.column_dimensions[
+            letra
+        ].width = largura + 3
+
+# ============================================================
+# CABECALHOS AMIGAVEIS
+# ============================================================
+
+def renomear_cabecalhos(ws):
+
+    for cell in ws[1]:
+
+        if cell.value in MAPA_CABECALHOS:
+
+            cell.value = MAPA_CABECALHOS[
+                cell.value
+            ]
+
+# ============================================================
+# FORMATO NUMEROS
+# ============================================================
+
+def formatar_numeros(ws):
+
+    colunas_monetarias = {
+
+        "Valor Comprado",
+        "Valor",
+        "Saving",
+        "Custo Atual",
+        "Menor Custo Histórico"
+    }
+
+    cabecalhos = [
+        c.value for c in ws[1]
+    ]
+
+    for idx, nome in enumerate(
+        cabecalhos,
+        start=1
+    ):
+
+        if nome in colunas_monetarias:
+
+            for linha in range(
+                2,
+                ws.max_row + 1
+            ):
+
+                celula = ws.cell(
+                    linha,
+                    idx
+                )
+
+                if isinstance(
+                    celula.value,
+                    (int, float)
+                ):
+
+                    celula.number_format = (
+                        '#,##0.00'
+                    )
+
+# ============================================================
+# FORMATO PERCENTUAIS
+# ============================================================
+
+def formatar_percentuais(ws):
+
+    cabecalhos = [
+        c.value for c in ws[1]
+    ]
+
+    for idx, nome in enumerate(
+        cabecalhos,
+        start=1
+    ):
+
+        if nome in {
+
+            "Participação (%)",
+            "Acumulado (%)",
+            "Saving (%)"
+
+        }:
+
+            for linha in range(
+                2,
+                ws.max_row + 1
+            ):
+
+                celula = ws.cell(
+                    linha,
+                    idx
+                )
+
+                if isinstance(
+                    celula.value,
+                    (int, float)
+                ):
+
+                    celula.value = (
+                        celula.value / 100
+                    )
+
+                    celula.number_format = (
+                        "0.00%"
+                    )
+
+# ============================================================
+# ZEBRA
+# ============================================================
+
+def aplicar_zebra(ws):
+
+    cinza = PatternFill(
+        "solid",
+        fgColor=COR_ZEBRA
+    )
+
+    for linha in range(
+        2,
+        ws.max_row + 1
+    ):
+
+        if linha % 2 == 0:
+
+            for cell in ws[linha]:
+
+                if not cell.fill.fill_type:
+
+                    cell.fill = cinza
+
+# ============================================================
+# CLASSE ABC
+# ============================================================
 
 def colorir_coluna_abc(ws):
 
@@ -626,29 +819,32 @@ def colorir_coluna_abc(ws):
         min_row=2
     ):
 
-        for celula in row:
+        for cell in row:
 
-            if celula.value == "A":
+            if cell.value == "A":
 
-                celula.fill = PatternFill(
+                cell.fill = PatternFill(
                     "solid",
-                    fgColor="92D050"
+                    fgColor=COR_VERDE
                 )
 
-            elif celula.value == "B":
+            elif cell.value == "B":
 
-                celula.fill = PatternFill(
+                cell.fill = PatternFill(
                     "solid",
-                    fgColor="FFD966"
+                    fgColor=COR_AMARELO
                 )
 
-            elif celula.value == "C":
+            elif cell.value == "C":
 
-                celula.fill = PatternFill(
+                cell.fill = PatternFill(
                     "solid",
-                    fgColor="FF9999"
+                    fgColor=COR_VERMELHO
                 )
 
+# ============================================================
+# STATUS SAVING
+# ============================================================
 
 def colorir_status(ws):
 
@@ -656,56 +852,107 @@ def colorir_status(ws):
         min_row=2
     ):
 
-        for celula in row:
+        for cell in row:
 
-            if celula.value == "NORMAL":
+            if cell.value == "NORMAL":
 
-                celula.fill = PatternFill(
+                cell.fill = PatternFill(
                     "solid",
-                    fgColor="92D050"
+                    fgColor=COR_VERDE
                 )
 
-            elif celula.value == "ATENCAO":
+            elif cell.value == "ATENCAO":
 
-                celula.fill = PatternFill(
+                cell.fill = PatternFill(
                     "solid",
-                    fgColor="FFD966"
+                    fgColor=COR_AMARELO
                 )
 
-            elif celula.value == "ANOMALIA":
+            elif cell.value == "ANOMALIA":
 
-                celula.fill = PatternFill(
+                cell.fill = PatternFill(
                     "solid",
-                    fgColor="FF9999"
+                    fgColor=COR_VERMELHO
                 )
 
+# ============================================================
+# ACAO SAVING
+# ============================================================
+
+def adicionar_coluna_acao(ws):
+
+    headers = [
+        c.value
+        for c in ws[1]
+    ]
+
+    if "status" not in headers:
+        return
+
+    status_col = (
+        headers.index("status") + 1
+    )
+
+    nova_col = ws.max_column + 1
+
+    ws.cell(
+        1,
+        nova_col,
+        "AÇÃO"
+    )
+
+    for linha in range(
+        2,
+        ws.max_row + 1
+    ):
+
+        status = ws.cell(
+            linha,
+            status_col
+        ).value
+
+        if status == "ANOMALIA":
+
+            acao = "VALIDAR"
+
+        elif status == "ATENCAO":
+
+            acao = "INVESTIGAR"
+
+        else:
+
+            acao = "NEGOCIAR"
+
+        ws.cell(
+            linha,
+            nova_col,
+            acao
+        )
+
+# ============================================================
+# RESUMO EXECUTIVO
+# ============================================================
 
 def reconstruir_resumo(ws):
 
+    if ws.max_row < 2:
+        return
+
     dados = {}
 
-    cabecalhos = []
+    cabecalhos = [
+        c.value for c in ws[1]
+    ]
 
-    valores = []
+    valores = [
+        c.value for c in ws[2]
+    ]
 
-    for celula in ws[1]:
-
-        cabecalhos.append(
-            celula.value
-        )
-
-    for celula in ws[2]:
-
-        valores.append(
-            celula.value
-        )
-
-    for chave, valor in zip(
+    for k, v in zip(
         cabecalhos,
         valores
     ):
-
-        dados[chave] = valor
+        dados[k] = v
 
     ws.delete_rows(
         1,
@@ -715,93 +962,85 @@ def reconstruir_resumo(ws):
     ws["A1"] = "Indicador"
     ws["B1"] = "Valor"
 
+    linha = 2
+
     indicadores = [
 
         ("Valor Total Comprado",
-         dados["valor_total_comprado"]),
+         dados.get("valor_total_comprado")),
 
         ("Quantidade Comprada",
-         dados["quantidade_total_comprada"]),
+         dados.get("quantidade_total_comprada")),
 
         ("Produtos Distintos",
-         dados["produtos_distintos"]),
+         dados.get("produtos_distintos")),
 
         ("Fornecedores Distintos",
-         dados["fornecedores_distintos"]),
+         dados.get("fornecedores_distintos")),
 
         ("Meses Avaliados",
-         dados["meses_periodo"]),
+         dados.get("meses_periodo")),
 
         ("Compra Média Mensal",
-         dados["compra_media_mensal"]),
+         dados.get("compra_media_mensal")),
 
         ("Maior Mês",
-         dados["maior_mes_compra"]),
+         dados.get("maior_mes_compra")),
 
         ("Valor do Maior Mês",
-         dados["valor_maior_mes"]),
+         dados.get("valor_maior_mes")),
 
         ("Menor Mês",
-         dados["menor_mes_compra"]),
+         dados.get("menor_mes_compra")),
 
         ("Valor do Menor Mês",
-         dados["valor_menor_mes"]),
+         dados.get("valor_menor_mes")),
 
         ("Oportunidades Totais",
-         dados["oportunidades_totais"]),
+         dados.get("oportunidades_totais")),
 
         ("Oportunidades Normais",
-         dados["qtd_normal"]),
+         dados.get("qtd_normal")),
 
         ("Oportunidades Atenção",
-         dados["qtd_atencao"]),
+         dados.get("qtd_atencao")),
 
         ("Oportunidades Anomalia",
-         dados["qtd_anomalia"]),
+         dados.get("qtd_anomalia")),
 
         ("Saving Total",
-         dados["saving_total"]),
+         dados.get("saving_total")),
 
         ("Saving Médio",
-         dados["saving_medio"]),
+         dados.get("saving_medio")),
 
         ("Maior Saving",
-         dados["maior_saving"]),
+         dados.get("maior_saving")),
 
         ("Maior Saving Normal",
-         dados["maior_saving_normal"]),
+         dados.get("maior_saving_normal")),
 
         ("Maior Saving Atenção",
-         dados["maior_saving_atencao"]),
+         dados.get("maior_saving_atencao")),
 
         ("Maior Saving Anomalia",
-         dados["maior_saving_anomalia"]),
+         dados.get("maior_saving_anomalia")),
 
         ("Inflação Média",
-         dados["inflacao_media_periodo"])
+         dados.get("inflacao_media_periodo"))
 
     ]
 
-    linha = 2
-
     for indicador, valor in indicadores:
 
-        ws.cell(
-            linha,
-            1,
-            indicador
-        )
-
-        ws.cell(
-            linha,
-            2,
-            valor
-        )
+        ws.cell(linha, 1, indicador)
+        ws.cell(linha, 2, valor)
 
         linha += 1
 
-    formatar_cabecalho(ws)
-
+# ============================================================
+# EXECUCAO
+# ============================================================
 
 def run(arquivo_excel):
 
@@ -809,19 +1048,23 @@ def run(arquivo_excel):
         arquivo_excel
     )
 
-    # ========================================================
-    # RESUMO EXECUTIVO
-    # ========================================================
+    if "Resumo Executivo" in wb.sheetnames:
 
-    ws = wb["Resumo Executivo"]
-
-    reconstruir_resumo(ws)
-
-    # ========================================================
-    # TODAS AS ABAS
-    # ========================================================
+        reconstruir_resumo(
+            wb["Resumo Executivo"]
+        )
 
     for ws in wb.worksheets:
+
+        renomear_cabecalhos(ws)
+
+        formatar_cabecalho(ws)
+
+        formatar_numeros(ws)
+
+        formatar_percentuais(ws)
+
+        aplicar_zebra(ws)
 
         ws.freeze_panes = "A2"
 
@@ -829,18 +1072,12 @@ def run(arquivo_excel):
             ws.dimensions
         )
 
-        formatar_cabecalho(ws)
-
         ajustar_largura(ws)
 
-    # ========================================================
-    # ABC
-    # ========================================================
-
-    if "ABC Fornec" in wb.sheetnames:
+    if "ABC Fornecedores" in wb.sheetnames:
 
         colorir_coluna_abc(
-            wb["ABC Fornec"]
+            wb["ABC Fornecedores"]
         )
 
     if "ABC Produtos" in wb.sheetnames:
@@ -849,19 +1086,22 @@ def run(arquivo_excel):
             wb["ABC Produtos"]
         )
 
-    # ========================================================
-    # SAVING
-    # ========================================================
+    for nome in [
 
-    if "Saving" in wb.sheetnames:
+        "Top Savings",
+        "Saving Completo"
 
-        colorir_status(
-            wb["Saving"]
-        )
+    ]:
 
-    # ========================================================
-    # SALVAR
-    # ========================================================
+        if nome in wb.sheetnames:
+
+            adicionar_coluna_acao(
+                wb[nome]
+            )
+
+            colorir_status(
+                wb[nome]
+            )
 
     wb.save(
         arquivo_excel
