@@ -134,59 +134,59 @@ def run(caminho_banco):
 
     FROM tb_resumo_executivo
 
-""").fetchone()
+    """).fetchone()
 
-print("\n======== RESUMO EXECUTIVO ========\n")
+    print("\n======== RESUMO EXECUTIVO ========\n")
 
-print(
-    f"Valor Total Comprado: "
-    f"{resumo[0]:,.2f}"
-)
+    print(
+        f"Valor Total Comprado: "
+        f"{resumo[0]:,.2f}"
+    )
 
-print(
-    f"Quantidade Comprada: "
-    f"{resumo[1]:,.2f}"
-)
+    print(
+        f"Quantidade Comprada: "
+        f"{resumo[1]:,.2f}"
+    )
 
-print(
-    f"Produtos Distintos: "
-    f"{resumo[2]}"
-)
+    print(
+        f"Produtos Distintos: "
+        f"{resumo[2]}"
+    )
 
-print(
-    f"Fornecedores Distintos: "
-    f"{resumo[3]}"
-)
+    print(
+        f"Fornecedores Distintos: "
+        f"{resumo[3]}"
+    )
 
-print(
-    f"Meses do Período: "
-    f"{resumo[4]}"
-)
+    print(
+        f"Meses do Período: "
+        f"{resumo[4]}"
+    )
 
-print(
-    f"Compra Média Mensal: "
-    f"{resumo[5]:,.2f}"
-)
+    print(
+        f"Compra Média Mensal: "
+        f"{resumo[5]:,.2f}"
+    )
 
-print(
-    f"Maior Mês: "
-    f"{resumo[6]}"
-)
+    print(
+        f"Maior Mês: "
+        f"{resumo[6]}"
+    )
 
-print(
-    f"Valor do Maior Mês: "
-    f"{resumo[7]:,.2f}"
-)
+    print(
+        f"Valor do Maior Mês: "
+        f"{resumo[7]:,.2f}"
+    )
 
-print(
-    f"Menor Mês: "
-    f"{resumo[8]}"
-)
+    print(
+        f"Menor Mês: "
+        f"{resumo[8]}"
+    )
 
-print(
-    f"Valor do Menor Mês: "
-    f"{resumo[9]:,.2f}"
-)
+    print(
+        f"Valor do Menor Mês: "
+        f"{resumo[9]:,.2f}"
+    )
 
 con.close()
     
