@@ -34,6 +34,10 @@ from compras_100_resumo_executivo import (
     run as resumo_executivo
 )
 
+from compras_110_ranking_fornecedores import (
+    run as ranking_fornecedores
+)
+
 
 # ============================================================
 # PIPELINE PRINCIPAL
@@ -85,7 +89,9 @@ def processar_compras(
         caminho_banco
     )
 
-
+    ranking_fornecedores(
+        caminho_banco
+    )
 
 
 
