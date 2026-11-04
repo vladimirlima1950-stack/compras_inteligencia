@@ -61,6 +61,10 @@ from compras_160_saving_potencial import (
 )
 
 
+from compras_170_ranking_saving import (
+    run as ranking_saving
+)
+
 
 
 # ============================================================
@@ -138,7 +142,9 @@ def processar_compras(
         caminho_banco
     )
 
-
+    ranking_saving(
+        caminho_banco
+    )
 
 
 
