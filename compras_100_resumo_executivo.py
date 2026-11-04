@@ -127,18 +127,66 @@ def run(caminho_banco):
 
     """)
 
+    
     resumo = con.execute("""
 
-        SELECT *
+    SELECT *
 
-        FROM tb_resumo_executivo
+    FROM tb_resumo_executivo
 
-    """).fetchall()
+""").fetchone()
 
-    print(
-        "tb_resumo_executivo criada."
-    )
+print("\n======== RESUMO EXECUTIVO ========\n")
 
-    print(resumo)
+print(
+    f"Valor Total Comprado: "
+    f"{resumo[0]:,.2f}"
+)
 
-    con.close()
+print(
+    f"Quantidade Comprada: "
+    f"{resumo[1]:,.2f}"
+)
+
+print(
+    f"Produtos Distintos: "
+    f"{resumo[2]}"
+)
+
+print(
+    f"Fornecedores Distintos: "
+    f"{resumo[3]}"
+)
+
+print(
+    f"Meses do Período: "
+    f"{resumo[4]}"
+)
+
+print(
+    f"Compra Média Mensal: "
+    f"{resumo[5]:,.2f}"
+)
+
+print(
+    f"Maior Mês: "
+    f"{resumo[6]}"
+)
+
+print(
+    f"Valor do Maior Mês: "
+    f"{resumo[7]:,.2f}"
+)
+
+print(
+    f"Menor Mês: "
+    f"{resumo[8]}"
+)
+
+print(
+    f"Valor do Menor Mês: "
+    f"{resumo[9]:,.2f}"
+)
+
+con.close()
+    
