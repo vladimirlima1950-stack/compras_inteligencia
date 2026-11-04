@@ -188,5 +188,5 @@ def run(caminho_banco):
         f"{resumo[9]:,.2f}"
     )
 
-con.close()
+    con.close()
     
