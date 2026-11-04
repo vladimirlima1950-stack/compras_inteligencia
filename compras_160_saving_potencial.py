@@ -119,7 +119,51 @@ def run(caminho_banco):
 
                 2
 
-            ) AS saving_percentual
+            ) AS saving_percentual,
+            CASE
+
+                WHEN
+
+                    ROUND(
+                        (
+                            u.custo_medio
+                            - m.menor_custo_historico
+                        )
+                        * 100.0
+                        /
+                        NULLIF(
+                            m.menor_custo_historico,
+                            0
+                        ),
+                        2
+                    ) > 200
+
+                THEN 'ANOMALIA'
+
+                WHEN
+
+                    ROUND(
+                        (
+                            u.custo_medio
+                            - m.menor_custo_historico
+                        )
+                        * 100.0
+                        /
+                        NULLIF(
+                            m.menor_custo_historico,
+                            0
+                        ),
+                        2
+                    ) > 50
+
+                THEN 'ATENCAO'
+
+                ELSE 'NORMAL'
+
+            END AS status
+            
+            
+            
 
         FROM ultimo_preco u
 
