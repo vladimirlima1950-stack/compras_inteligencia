@@ -1,7 +1,8 @@
 # compras_300_relatorio_excel.py
 
 # ============================================================
-# GERAÇÃO DO RELATÓRIO EXCEL
+# COMPRAS INTELIGENCIA
+# RELATÓRIO EXCEL V2
 # ============================================================
 
 import duckdb
@@ -19,66 +20,212 @@ def run(caminho_banco):
         "compras_inteligencia_relatorio.xlsx"
     )
 
-    abas = {
-
-        "Resumo Executivo":
-        "tb_relatorio_executivo",
-
-        "Compras Mensais":
-        "tb_compras_mensais",
-
-        "Ranking Fornec":
-        "tb_ranking_fornecedores",
-
-        "ABC Fornec":
-        "tb_curva_abc_fornecedores",
-
-        "Ranking Produtos":
-        "tb_ranking_produtos",
-
-        "ABC Produtos":
-        "tb_curva_abc_produtos",
-
-        "Saving":
-        "tb_ranking_saving",
-
-        "Inflacao":
-        "tb_inflacao_compras"
-
-    }
-
     with pd.ExcelWriter(
         arquivo_saida,
         engine="openpyxl"
     ) as writer:
 
-        for aba, tabela in abas.items():
+        # ====================================================
+        # RESUMO EXECUTIVO
+        # ====================================================
 
-            try:
+        df = con.execute("""
+            SELECT *
+            FROM tb_relatorio_executivo
+        """).df()
 
-                df = con.execute(
-                    f"""
-                    SELECT *
-                    FROM {tabela}
-                    """
-                ).df()
+        df.to_excel(
+            writer,
+            sheet_name="Resumo Executivo",
+            index=False
+        )
 
-                df.to_excel(
-                    writer,
-                    sheet_name=aba,
-                    index=False
-                )
+        print(
+            "Aba criada: Resumo Executivo"
+        )
 
-                print(
-                    f"Aba criada: {aba}"
-                )
+        # ====================================================
+        # COMPRAS MENSAIS
+        # ====================================================
 
-            except Exception as e:
+        df = con.execute("""
+            SELECT *
+            FROM tb_compras_mensais
+            ORDER BY ano_mes
+        """).df()
 
-                print(
-                    f"Erro na tabela "
-                    f"{tabela}: {e}"
-                )
+        df.to_excel(
+            writer,
+            sheet_name="Compras Mensais",
+            index=False
+        )
+
+        print(
+            "Aba criada: Compras Mensais"
+        )
+
+        # ====================================================
+        # TOP FORNECEDORES
+        # ====================================================
+
+        df = con.execute("""
+            SELECT *
+            FROM tb_ranking_fornecedores
+            ORDER BY ranking
+            LIMIT 20
+        """).df()
+
+        df.to_excel(
+            writer,
+            sheet_name="Top Fornecedores",
+            index=False
+        )
+
+        print(
+            "Aba criada: Top Fornecedores"
+        )
+
+        # ====================================================
+        # ABC FORNECEDORES
+        # ====================================================
+
+        df = con.execute("""
+            SELECT *
+            FROM tb_curva_abc_fornecedores
+            ORDER BY ranking
+        """).df()
+
+        df.to_excel(
+            writer,
+            sheet_name="ABC Fornecedores",
+            index=False
+        )
+
+        print(
+            "Aba criada: ABC Fornecedores"
+        )
+
+        # ====================================================
+        # TOP PRODUTOS
+        # ====================================================
+
+        df = con.execute("""
+            SELECT *
+            FROM tb_ranking_produtos
+            ORDER BY ranking
+            LIMIT 100
+        """).df()
+
+        df.to_excel(
+            writer,
+            sheet_name="Top Produtos",
+            index=False
+        )
+
+        print(
+            "Aba criada: Top Produtos"
+        )
+
+        # ====================================================
+        # BASE PRODUTOS
+        # ====================================================
+
+        df = con.execute("""
+            SELECT *
+            FROM tb_ranking_produtos
+            ORDER BY ranking
+        """).df()
+
+        df.to_excel(
+            writer,
+            sheet_name="Base Produtos",
+            index=False
+        )
+
+        print(
+            "Aba criada: Base Produtos"
+        )
+
+        # ====================================================
+        # ABC PRODUTOS
+        # ====================================================
+
+        df = con.execute("""
+            SELECT *
+            FROM tb_curva_abc_produtos
+            ORDER BY ranking
+        """).df()
+
+        df.to_excel(
+            writer,
+            sheet_name="ABC Produtos",
+            index=False
+        )
+
+        print(
+            "Aba criada: ABC Produtos"
+        )
+
+        # ====================================================
+        # TOP SAVINGS
+        # ====================================================
+
+        df = con.execute("""
+            SELECT *
+            FROM tb_ranking_saving
+            ORDER BY ranking
+            LIMIT 50
+        """).df()
+
+        df.to_excel(
+            writer,
+            sheet_name="Top Savings",
+            index=False
+        )
+
+        print(
+            "Aba criada: Top Savings"
+        )
+
+        # ====================================================
+        # SAVING COMPLETO
+        # ====================================================
+
+        df = con.execute("""
+            SELECT *
+            FROM tb_ranking_saving
+            ORDER BY ranking
+        """).df()
+
+        df.to_excel(
+            writer,
+            sheet_name="Saving Completo",
+            index=False
+        )
+
+        print(
+            "Aba criada: Saving Completo"
+        )
+
+        # ====================================================
+        # INFLAÇÃO
+        # ====================================================
+
+        df = con.execute("""
+            SELECT *
+            FROM tb_inflacao_compras
+            ORDER BY ano_mes
+        """).df()
+
+        df.to_excel(
+            writer,
+            sheet_name="Inflacao",
+            index=False
+        )
+
+        print(
+            "Aba criada: Inflacao"
+        )
 
     con.close()
 
