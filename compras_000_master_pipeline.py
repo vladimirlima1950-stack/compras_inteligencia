@@ -52,6 +52,13 @@ from compras_140_curva_abc_produtos import (
     run as curva_abc_produtos
 )
 
+from compras_150_evolucao_custos import (
+    run as evolucao_custos
+)
+
+
+
+
 # ============================================================
 # PIPELINE PRINCIPAL
 # ============================================================
@@ -118,6 +125,11 @@ def processar_compras(
     curva_abc_produtos(
         caminho_banco
     )
+
+    evolucao_custos(
+        caminho_banco
+    )
+
 
 
 
