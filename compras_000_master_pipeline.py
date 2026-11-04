@@ -56,6 +56,10 @@ from compras_150_evolucao_custos import (
     run as evolucao_custos
 )
 
+from compras_160_saving_potencial import (
+    run as saving_potencial
+)
+
 
 
 
@@ -129,6 +133,11 @@ def processar_compras(
     evolucao_custos(
         caminho_banco
     )
+
+    saving_potencial(
+        caminho_banco
+    )
+
 
 
 
