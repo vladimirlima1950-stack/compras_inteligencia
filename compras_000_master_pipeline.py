@@ -177,16 +177,16 @@ def processar_compras(
         caminho_banco
     )
 
-    relatorio_excel(
+    arquivo_excel = relatorio_excel(
         caminho_banco
     )
-
+    
+    
     enviar_email(
         arquivo_excel,
-        email,
-        nome
+        email_cliente,
+        nome_cliente
     )
-
 
 
     return resultado
