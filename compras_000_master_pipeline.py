@@ -81,6 +81,10 @@ from compras_300_relatorio_excel import (
     run as relatorio_excel
 )
 
+from compras_330_envio_email import (
+    run as enviar_email
+)
+
 
 # ============================================================
 # PIPELINE PRINCIPAL
@@ -177,7 +181,11 @@ def processar_compras(
         caminho_banco
     )
 
-
+    enviar_email(
+        arquivo_excel,
+        email,
+        nome
+    )
 
 
 
