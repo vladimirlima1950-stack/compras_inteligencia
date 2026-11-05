@@ -244,6 +244,7 @@ def reconstruir_resumo(ws):
         linha += 1
 
     formatar_cabecalho(w)
+    formatar_valores_resumo(ws)
 
 
 def formatar_valores_resumo(ws):
@@ -312,7 +313,7 @@ def run(arquivo_excel):
         )
 
         formatar_cabecalho(ws)
-        formatar_valores_resumo(ws)
+        
 
         ajustar_largura(ws)
 
