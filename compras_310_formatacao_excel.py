@@ -409,6 +409,35 @@ def formatar_base_produtos(ws):
         row[3].number_format = '#,##0.00'
 
 
+def formatar_top_savings(ws):
+
+    cabecalhos = {
+        "ranking": "Ranking",
+        "codigo_produto": "Produto",
+        "codigo_fornecedor": "Fornecedor",
+        "ultimo_mes": "Último Mês",
+        "custo_atual": "Custo Atual",
+        "menor_custo_historico": "Menor Custo Histórico",
+        "saving_absoluto": "Saving Absoluto",
+        "saving_percentual": "Saving (%)",
+        "status": "Status"
+    }
+
+    for celula in ws[1]:
+        if celula.value in cabecalhos:
+            celula.value = cabecalhos[celula.value]
+
+    for row in ws.iter_rows(min_row=2):
+
+        row[0].number_format = '#,##0'
+
+        row[4].number_format = '#,##0.00'
+        row[5].number_format = '#,##0.00'
+        row[6].number_format = '#,##0.00'
+        row[7].number_format = '#,##0.00'
+
+
+
 
 
 def run(arquivo_excel):
@@ -454,6 +483,15 @@ def run(arquivo_excel):
         formatar_base_produtos(
             wb["Base Produtos"]
         )
+
+    if "Top Savings" in wb.sheetnames:
+
+        formatar_top_savings(
+            wb["Top Savings"]
+        )
+
+
+
 
 
     # ========================================================
