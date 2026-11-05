@@ -463,6 +463,31 @@ def formatar_saving_completo(ws):
         row[6].number_format = '#,##0.00'
         row[7].number_format = '#,##0.00'
 
+def formatar_inflacao(ws):
+
+    cabecalhos = {
+        "ano_mes": "Ano-Mês",
+        "itens_avaliados": "Itens Avaliados",
+        "itens_com_aumento": "Itens com Aumento",
+        "itens_com_reducao": "Itens com Redução",
+        "inflacao_media": "Inflação Média (%)"
+    }
+
+    for celula in ws[1]:
+
+        if celula.value in cabecalhos:
+            celula.value = cabecalhos[celula.value]
+
+    for row in ws.iter_rows(min_row=2):
+
+        row[1].number_format = '#,##0'
+        row[2].number_format = '#,##0'
+        row[3].number_format = '#,##0'
+
+        row[4].number_format = '#,##0.00'
+
+
+
 
 
 
@@ -525,7 +550,11 @@ def run(arquivo_excel):
             wb["Saving Completo"]
         )
 
+    if "Inflacao" in wb.sheetnames:
 
+        formatar_inflacao(
+            wb["Inflacao"]
+        )
 
 
 
