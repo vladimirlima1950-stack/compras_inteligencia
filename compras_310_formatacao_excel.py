@@ -347,8 +347,11 @@ def formatar_abc_fornecedores(ws):
         "classe": "Classe ABC"
     }
 
-    for celula in wsif celula.value in cabecalhos:
+    for celula in ws[1]:
+    
+        if celula.value in cabecalhos:
             celula.value = cabecalhos[celula.value]
+    
 
     for row in ws.iter_rows(min_row=2):
 
