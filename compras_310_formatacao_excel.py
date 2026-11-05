@@ -312,6 +312,29 @@ def formatar_compras_mensais(ws):
         row[7].number_format = '#,##0'
 
 
+def formatar_top_fornecedores(ws):
+
+    cabecalhos = {
+        "ranking": "Ranking",
+        "codigo_fornecedor": "Fornecedor",
+        "valor_comprado": "Valor Comprado",
+        "percentual": "Participação (%)"
+    }
+
+    for celula in ws[1]:
+
+        if celula.value in cabecalhos:
+            celula.value = cabecalhos[celula.value]
+
+    for row in ws.iter_rows(min_row=2):
+
+        row[0].number_format = '#,##0'
+
+        row[2].number_format = '#,##0.00'
+
+        row[3].number_format = '#,##0.00'
+
+
 
 
 def run(arquivo_excel):
@@ -332,6 +355,13 @@ def run(arquivo_excel):
         formatar_compras_mensais(
             wb["Compras Mensais"]
         )
+
+    if "Top Fornecedores" in wb.sheetnames:
+
+        formatar_top_fornecedores(
+            wb["Top Fornecedores"]
+        )
+
 
     # ========================================================
     # TODAS AS ABAS
