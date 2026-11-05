@@ -285,6 +285,34 @@ def formatar_valores_resumo(ws):
         elif indicador in indicadores_inteiros:
             valor.number_format = '#,##0'
 
+def formatar_compras_mensais(ws):
+
+    cabecalhos = {
+        "ano_mes": "Ano-Mês",
+        "ano": "Ano",
+        "mes": "Mês",
+        "valor_comprado": "Valor Comprado",
+        "quantidade_comprada": "Quantidade Comprada",
+        "fornecedores": "Fornecedores",
+        "produtos": "Produtos",
+        "registros": "Registros"
+    }
+
+    for celula in ws[1]:
+        if celula.value in cabecalhos:
+            celula.value = cabecalhos[celula.value]
+
+    for row in ws.iter_rows(min_row=2):
+
+        row[3].number_format = '#,##0.00'
+        row[4].number_format = '#,##0.00'
+
+        row[5].number_format = '#,##0'
+        row[6].number_format = '#,##0'
+        row[7].number_format = '#,##0'
+
+
+
 
 def run(arquivo_excel):
 
@@ -299,6 +327,11 @@ def run(arquivo_excel):
     ws = wb["Resumo Executivo"]
 
     reconstruir_resumo(ws)
+    
+    if "Compras Mensais" in wb.sheetnames:
+        formatar_compras_mensais(
+            wb["Compras Mensais"]
+        )
 
     # ========================================================
     # TODAS AS ABAS
