@@ -336,6 +336,31 @@ def formatar_top_fornecedores(ws):
 
 
 
+def formatar_abc_fornecedores(ws):
+
+    cabecalhos = {
+        "ranking": "Ranking",
+        "codigo_fornecedor": "Fornecedor",
+        "valor_comprado": "Valor Comprado",
+        "percentual": "Participação (%)",
+        "percentual_acumulado": "Participação Acumulada (%)",
+        "classe": "Classe ABC"
+    }
+
+    for celula in wsif celula.value in cabecalhos:
+            celula.value = cabecalhos[celula.value]
+
+    for row in ws.iter_rows(min_row=2):
+
+        row[0].number_format = '#,##0'
+
+        row[2].number_format = '#,##0.00'
+
+        row[3].number_format = '#,##0.00'
+
+        row[4].number_format = '#,##0.00'
+
+
 
 def run(arquivo_excel):
 
@@ -361,6 +386,13 @@ def run(arquivo_excel):
         formatar_top_fornecedores(
             wb["Top Fornecedores"]
         )
+
+    if "ABC Fornecedores" in wb.sheetnames:
+
+        formatar_abc_fornecedores(
+            wb["ABC Fornecedores"]
+        )
+
 
 
     # ========================================================
