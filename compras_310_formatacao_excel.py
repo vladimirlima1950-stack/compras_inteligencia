@@ -243,7 +243,46 @@ def reconstruir_resumo(ws):
 
         linha += 1
 
-    formatar_cabecalho(ws)
+    formatar_cabecalho(w
+
+
+def formatar_valores_resumo(ws):
+
+    indicadores_2_casas = {
+        "Valor Total Comprado",
+        "Quantidade Comprada",
+        "Compra Média Mensal",
+        "Valor do Maior Mês",
+        "Valor do Menor Mês",
+        "Saving Total",
+        "Saving Médio",
+        "Maior Saving",
+        "Maior Saving Normal",
+        "Maior Saving Atenção",
+        "Maior Saving Anomalia",
+        "Inflação Média"
+    }
+
+    indicadores_inteiros = {
+        "Produtos Distintos",
+        "Fornecedores Distintos",
+        "Meses Avaliados",
+        "Oportunidades Totais",
+        "Oportunidades Normais",
+        "Oportunidades Atenção",
+        "Oportunidades Anomalia"
+    }
+
+    for row in ws.iter_rows(min_row=2):
+
+        indicador = row[0].value
+        valor = row[1]
+
+        if indicador in indicadores_2_casas:
+            valor.number_format = '#,##0.00'
+
+        elif indicador in indicadores_inteiros:
+            valor.number_format = '#,##0'
 
 
 def run(arquivo_excel):
@@ -273,6 +312,7 @@ def run(arquivo_excel):
         )
 
         formatar_cabecalho(ws)
+        formatar_valores_resumo(ws)
 
         ajustar_largura(ws)
 
