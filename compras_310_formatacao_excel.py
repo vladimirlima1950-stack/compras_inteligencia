@@ -243,7 +243,7 @@ def reconstruir_resumo(ws):
 
         linha += 1
 
-    formatar_cabecalho(w
+    formatar_cabecalho(w)
 
 
 def formatar_valores_resumo(ws):
