@@ -364,6 +364,29 @@ def formatar_abc_fornecedores(ws):
         row[4].number_format = '#,##0.00'
 
 
+def formatar_top_produtos(ws):
+
+    cabecalhos = {
+        "ranking": "Ranking",
+        "codigo_produto": "Produto",
+        "valor_comprado": "Valor Comprado",
+        "percentual": "Participação (%)"
+    }
+
+    for celula in ws[1]:
+
+        if celula.value in cabecalhos:
+            celula.value = cabecalhos[celula.value]
+
+    for row in ws.iter_rows(min_row=2):
+
+        row[0].number_format = '#,##0'
+
+        row[2].number_format = '#,##0.00'
+
+        row[3].number_format = '#,##0.00'
+
+
 
 def run(arquivo_excel):
 
@@ -396,6 +419,14 @@ def run(arquivo_excel):
             wb["ABC Fornecedores"]
         )
 
+    if "Top Produtos" in wb.sheetnames:
+
+        formatar_top_produtos(
+            wb["Top Produtos"]
+        )
+
+
+
 
 
     # ========================================================
@@ -419,10 +450,10 @@ def run(arquivo_excel):
     # ABC
     # ========================================================
 
-    if "ABC Fornec" in wb.sheetnames:
+    if "ABC Fornecedores" in wb.sheetnames:
 
         colorir_coluna_abc(
-            wb["ABC Fornec"]
+            wb["ABC Fornecedores"]
         )
 
     if "ABC Produtos" in wb.sheetnames:
