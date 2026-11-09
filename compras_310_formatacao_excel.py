@@ -504,18 +504,36 @@ def formatar_saving_completo(ws):
     
     print(">>> FORMATANDO SAVING COMPLETO <<<")
 
+    
     cabecalhos = {
+
         "ranking": "Ranking",
+
         "codigo_produto": "Produto",
-        "codigo_fornecedor": "Fornecedor",
+
+        "codigo_fornecedor": "Fornecedor Atual",
+
         "ultimo_mes": "Último Mês",
+
         "custo_atual": "Custo Atual",
-        "menor_custo_historico": "Menor Custo Histórico",
-        "saving_absoluto": "Saving Absoluto",
-        "saving_percentual": "Saving (%)",
+
+        "menor_custo_historico":
+            "Menor Custo Histórico",
+
+        "fornecedor_menor_custo_historico":
+            "Fornecedor Menor Custo Histórico",
+
+        "saving_absoluto":
+            "Potencial Economia (R$)",
+
+        "saving_percentual":
+            "Potencial Economia (%)",
+
         "status": "Status"
     }
-
+    
+    
+    
     for celula in ws[1]:
         if celula.value in cabecalhos:
             celula.value = cabecalhos[celula.value]
