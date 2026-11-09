@@ -202,7 +202,7 @@ def reconstruir_resumo(ws):
         ("Oportunidades Anomalia",
          dados["qtd_anomalia"]),
 
-        ("Saving Total",
+        ("Potencial Total de Economia",
          dados["saving_total"]),
 
         ("Saving Médio",
