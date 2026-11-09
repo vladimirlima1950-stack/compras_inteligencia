@@ -179,12 +179,12 @@ def run(caminho_banco):
 
         df.to_excel(
             writer,
-            sheet_name="Top Savings",
+            sheet_name="Top Oportunidades",
             index=False
         )
 
         print(
-            "Aba criada: Top Savings"
+            "Aba criada: Top Oportunidades"
         )
 
         # ====================================================
@@ -199,12 +199,12 @@ def run(caminho_banco):
 
         df.to_excel(
             writer,
-            sheet_name="Saving Completo",
+            sheet_name="Oportunidades de Economia",
             index=False
         )
 
         print(
-            "Aba criada: Saving Completo"
+            "Aba criada: Oportunidades de Economia"
         )
 
         # ====================================================
@@ -219,12 +219,12 @@ def run(caminho_banco):
 
         df.to_excel(
             writer,
-            sheet_name="Inflacao",
+            sheet_name="Variação de Preços",
             index=False
         )
 
         print(
-            "Aba criada: Inflacao"
+            "Aba criada: Variação de Preços"
         )
 
     con.close()

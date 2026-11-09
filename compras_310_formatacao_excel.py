@@ -249,20 +249,23 @@ def reconstruir_resumo(ws):
 
 def formatar_valores_resumo(ws):
 
+
     indicadores_2_casas = {
         "Valor Total Comprado",
         "Quantidade Comprada",
         "Compra Média Mensal",
         "Valor do Maior Mês",
         "Valor do Menor Mês",
-        "Saving Total",
-        "Saving Médio",
-        "Maior Saving",
-        "Maior Saving Normal",
-        "Maior Saving Atenção",
-        "Maior Saving Anomalia",
-        "Inflação Média"
+        "Potencial Total de Economia",
+        "Potencial Médio de Economia",
+        "Maior Potencial de Economia",
+        "Maior Potencial de Economia Normal",
+        "Maior Potencial de Economia Atenção",
+        "Maior Potencial de Economia Anomalia",
+        "Variação Média dos Preços"
     }
+
+
 
     indicadores_inteiros = {
         "Produtos Distintos",
@@ -442,7 +445,7 @@ def formatar_abc_produtos(ws):
     
 def formatar_top_savings(ws):
     
-    print(">>> FORMATANDO ABA SAVING <<<")
+    
 
     cabecalhos = {
 
@@ -481,7 +484,7 @@ def formatar_top_savings(ws):
         row[0].number_format = '#,##0'
 
         # Fornecedor Atual
-        row[2].number_format = '0'
+        row[2].number_format = '@'
 
         # Custo Atual
         row[4].number_format = '#,##0.00'
@@ -490,7 +493,7 @@ def formatar_top_savings(ws):
         row[5].number_format = '#,##0.00'
 
         # Fornecedor Menor Custo Histórico
-        row[6].number_format = '0'
+        row[6].number_format = '@'
 
         # Potencial Economia (R$)
         row[7].number_format = '#,##0.00'
@@ -502,7 +505,7 @@ def formatar_top_savings(ws):
 
 def formatar_saving_completo(ws):
     
-    print(">>> FORMATANDO SAVING COMPLETO <<<")
+    
 
     
     cabecalhos = {
@@ -571,7 +574,7 @@ def formatar_inflacao(ws):
         "itens_avaliados": "Itens Avaliados",
         "itens_com_aumento": "Itens com Aumento",
         "itens_com_reducao": "Itens com Redução",
-        "inflacao_media": "Variação Média (%)"
+        "inflacao_media": "Variação Média dos Preços(%)"
     }
 
     for celula in ws[1]:
@@ -604,7 +607,7 @@ def run(arquivo_excel):
     
     
     
-    print(wb.sheetnames)
+    
 
 
     # ========================================================
@@ -645,26 +648,26 @@ def run(arquivo_excel):
             wb["Base Produtos"]
         )
 
-    if "Top Savings" in wb.sheetnames:
+    if "Top Oportunidades" in wb.sheetnames:
         
                
 
         formatar_top_savings(
-            wb["Top Savings"]
+            wb["Top Oportunidades"]
         )
 
-    if "Saving Completo" in wb.sheetnames:
+    if "Oportunidades de Economia" in wb.sheetnames:
 
         formatar_saving_completo(
-            wb["Saving Completo"]
+            wb["Oportunidades de Economia"]
         )
 
 
 
-    if "Inflacao" in wb.sheetnames:
+    if "Variação de Preços" in wb.sheetnames:
 
         formatar_inflacao(
-            wb["Inflacao"]
+            wb["Variação de Preços"]
         )
 
     if "ABC Produtos" in wb.sheetnames:
@@ -711,10 +714,10 @@ def run(arquivo_excel):
     # SAVING
     # ========================================================
 
-    if "Saving" in wb.sheetnames:
+    if "Oportunidades de Economia" in wb.sheetnames:
 
         colorir_status(
-            wb["Saving"]
+            wb["Oportunidades de Economia"]
         )
 
     # ========================================================
