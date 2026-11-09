@@ -611,15 +611,13 @@ def run(arquivo_excel):
             wb["Base Produtos"]
         )
 
-    if "Saving" in wb.sheetnames:
+    if "Top Savings" in wb.sheetnames:
 
-        print(">>> ABA SAVING ENCONTRADA <<<")
+        print(">>> FORMATANDO TOP SAVINGS <<<")
 
         formatar_top_savings(
-            wb["Saving"]
+            wb["Top Savings"]
         )
-
-
 
 
     if "Inflacao" in wb.sheetnames:
