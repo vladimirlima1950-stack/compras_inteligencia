@@ -205,22 +205,22 @@ def reconstruir_resumo(ws):
         ("Potencial Total de Economia",
          dados["saving_total"]),
 
-        ("Saving Médio",
+        ("Potencial Médio de Economia",
          dados["saving_medio"]),
 
-        ("Maior Saving",
+        ("Maior Potencial de Economia",
          dados["maior_saving"]),
 
-        ("Maior Saving Normal",
+        ("Maior Potencial de Economia Normal",
          dados["maior_saving_normal"]),
 
-        ("Maior Saving Atenção",
+        ("Maior Potencial de Economia Atenção",
          dados["maior_saving_atencao"]),
 
-        ("Maior Saving Anomalia",
+        ("Maior Potencial de Economia Anomalia",
          dados["maior_saving_anomalia"]),
 
-        ("Inflação Média",
+        ("Variação Média dos Preços",
          dados["inflacao_media_periodo"])
 
     ]
@@ -571,7 +571,7 @@ def formatar_inflacao(ws):
         "itens_avaliados": "Itens Avaliados",
         "itens_com_aumento": "Itens com Aumento",
         "itens_com_reducao": "Itens com Redução",
-        "inflacao_media": "Inflação Média (%)"
+        "inflacao_media": "Variação Média (%)"
     }
 
     for celula in ws[1]:
