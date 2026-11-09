@@ -538,14 +538,31 @@ def formatar_saving_completo(ws):
         if celula.value in cabecalhos:
             celula.value = cabecalhos[celula.value]
 
+
     for row in ws.iter_rows(min_row=2):
 
+        # Ranking
         row[0].number_format = '#,##0'
 
+        # Fornecedor Atual
+        row[2].number_format = '@'
+
+        # Custo Atual
         row[4].number_format = '#,##0.00'
+
+        # Menor Custo Histórico
         row[5].number_format = '#,##0.00'
-        row[6].number_format = '#,##0.00'
+
+        # Fornecedor Menor Custo Histórico
+        row[6].number_format = '@'
+
+        # Potencial Economia (R$)
         row[7].number_format = '#,##0.00'
+
+        # Potencial Economia (%)
+        row[8].number_format = '#,##0.00'
+
+
 
 def formatar_inflacao(ws):
 
