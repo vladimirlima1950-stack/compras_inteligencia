@@ -564,6 +564,10 @@ def run(arquivo_excel):
         arquivo_excel
     )
 
+    print("ABAS ENCONTRADAS:")
+    print(wb.sheetnames)
+
+
     # ========================================================
     # RESUMO EXECUTIVO
     # ========================================================
@@ -604,9 +608,12 @@ def run(arquivo_excel):
 
     if "Saving" in wb.sheetnames:
 
+        print(">>> ABA SAVING ENCONTRADA <<<")
+
         formatar_top_savings(
             wb["Saving"]
         )
+
 
 
 
