@@ -461,6 +461,10 @@ def formatar_top_savings(ws):
 
     
     
+    
+    
+    
+    
     cabecalhos = {
 
         "ranking": "Ranking",
@@ -487,6 +491,8 @@ def formatar_top_savings(ws):
 
         "status": "Status"
     }
+    
+    
     
     
 
