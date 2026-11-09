@@ -286,23 +286,43 @@ def formatar_valores_resumo(ws):
             valor.number_format = '#,##0'
 
 def formatar_compras_mensais(ws):
-
+    
+    
     cabecalhos = {
-        "ano_mes": "Ano-Mês",
-        "ano": "Ano",
-        "mes": "Mês",
-        "valor_comprado": "Valor Comprado",
-        "quantidade_comprada": "Quantidade Comprada",
-        "fornecedores": "Fornecedores",
-        "produtos": "Produtos",
-        "registros": "Registros"
-    }
 
+        "ranking": "Ranking",
+
+        "codigo_produto": "Produto",
+
+        "codigo_fornecedor": "Fornecedor Atual",
+
+        "ultimo_mes": "Último Mês",
+
+        "custo_atual": "Custo Atual",
+
+        "menor_custo_historico":
+            "Menor Custo Histórico",
+
+        "fornecedor_menor_custo_historico":
+            "Fornecedor Menor Custo Histórico",
+
+        "saving_absoluto":
+            "Potencial Economia (R$)",
+
+        "saving_percentual":
+            "Potencial Economia (%)",
+
+        "status": "Status"
+    }
+    
+    
+ 
     for celula in ws[1]:
         if celula.value in cabecalhos:
             celula.value = cabecalhos[celula.value]
 
     for row in ws.iter_rows(min_row=2):
+
 
         row[3].number_format = '#,##0.00'
         row[4].number_format = '#,##0.00'
@@ -457,12 +477,27 @@ def formatar_top_savings(ws):
 
     for row in ws.iter_rows(min_row=2):
 
+        # Ranking
         row[0].number_format = '#,##0'
 
+        # Fornecedor Atual
+        row[2].number_format = '0'
+
+        # Custo Atual
         row[4].number_format = '#,##0.00'
+
+        # Menor Custo Histórico
         row[5].number_format = '#,##0.00'
-        row[6].number_format = '#,##0.00'
+
+        # Fornecedor Menor Custo Histórico
+        row[6].number_format = '0'
+
+        # Potencial Economia (R$)
         row[7].number_format = '#,##0.00'
+
+        # Potencial Economia (%)
+        row[8].number_format = '#,##0.00'
+
 
 def formatar_saving_completo(ws):
 
