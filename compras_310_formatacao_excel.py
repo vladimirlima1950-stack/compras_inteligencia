@@ -564,7 +564,12 @@ def run(arquivo_excel):
         arquivo_excel
     )
 
-    print("ABAS ENCONTRADAS:")
+    print(
+        f"ABAS ENCONTRADAS: {', '.join(wb.sheetnames)}"
+    )
+    
+    
+    
     print(wb.sheetnames)
 
 
