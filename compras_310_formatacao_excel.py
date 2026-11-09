@@ -285,44 +285,26 @@ def formatar_valores_resumo(ws):
         elif indicador in indicadores_inteiros:
             valor.number_format = '#,##0'
 
+    
+    
 def formatar_compras_mensais(ws):
-    
-    
+
     cabecalhos = {
-
-        "ranking": "Ranking",
-
-        "codigo_produto": "Produto",
-
-        "codigo_fornecedor": "Fornecedor Atual",
-
-        "ultimo_mes": "Último Mês",
-
-        "custo_atual": "Custo Atual",
-
-        "menor_custo_historico":
-            "Menor Custo Histórico",
-
-        "fornecedor_menor_custo_historico":
-            "Fornecedor Menor Custo Histórico",
-
-        "saving_absoluto":
-            "Potencial Economia (R$)",
-
-        "saving_percentual":
-            "Potencial Economia (%)",
-
-        "status": "Status"
+        "ano_mes": "Ano-Mês",
+        "ano": "Ano",
+        "mes": "Mês",
+        "valor_comprado": "Valor Comprado",
+        "quantidade_comprada": "Quantidade Comprada",
+        "fornecedores": "Fornecedores",
+        "produtos": "Produtos",
+        "registros": "Registros"
     }
-    
-    
- 
+
     for celula in ws[1]:
         if celula.value in cabecalhos:
             celula.value = cabecalhos[celula.value]
 
     for row in ws.iter_rows(min_row=2):
-
 
         row[3].number_format = '#,##0.00'
         row[4].number_format = '#,##0.00'
@@ -330,7 +312,6 @@ def formatar_compras_mensais(ws):
         row[5].number_format = '#,##0'
         row[6].number_format = '#,##0'
         row[7].number_format = '#,##0'
-
 
 def formatar_top_fornecedores(ws):
 
@@ -457,14 +438,10 @@ def formatar_abc_produtos(ws):
 
 
 
-def formatar_top_savings(ws):
 
     
-    
-    
-    
-    
-    
+def formatar_top_savings(ws):
+
     cabecalhos = {
 
         "ranking": "Ranking",
@@ -491,10 +468,6 @@ def formatar_top_savings(ws):
 
         "status": "Status"
     }
-    
-    
-    
-    
 
     for celula in ws[1]:
         if celula.value in cabecalhos:
@@ -522,6 +495,7 @@ def formatar_top_savings(ws):
 
         # Potencial Economia (%)
         row[8].number_format = '#,##0.00'
+
 
 
 def formatar_saving_completo(ws):
