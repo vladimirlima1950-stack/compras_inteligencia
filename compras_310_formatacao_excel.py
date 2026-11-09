@@ -501,6 +501,8 @@ def formatar_top_savings(ws):
 
 
 def formatar_saving_completo(ws):
+    
+    print(">>> FORMATANDO SAVING COMPLETO <<<")
 
     cabecalhos = {
         "ranking": "Ranking",
@@ -564,9 +566,6 @@ def run(arquivo_excel):
         arquivo_excel
     )
 
-    print(
-        f"ABAS ENCONTRADAS: {', '.join(wb.sheetnames)}"
-    )
     
     
     
@@ -613,7 +612,7 @@ def run(arquivo_excel):
 
     if "Top Savings" in wb.sheetnames:
 
-        print(">>> FORMATANDO TOP SAVINGS <<<")
+        
 
         formatar_top_savings(
             wb["Top Savings"]
