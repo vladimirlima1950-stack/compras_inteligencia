@@ -611,12 +611,19 @@ def run(arquivo_excel):
         )
 
     if "Top Savings" in wb.sheetnames:
-
         
+               
 
         formatar_top_savings(
             wb["Top Savings"]
         )
+
+    if "Saving Completo" in wb.sheetnames:
+
+        formatar_saving_completo(
+            wb["Saving Completo"]
+        )
+
 
 
     if "Inflacao" in wb.sheetnames:
