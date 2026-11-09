@@ -459,17 +459,36 @@ def formatar_abc_produtos(ws):
 
 def formatar_top_savings(ws):
 
+    
+    
     cabecalhos = {
+
         "ranking": "Ranking",
+
         "codigo_produto": "Produto",
-        "codigo_fornecedor": "Fornecedor",
+
+        "codigo_fornecedor": "Fornecedor Atual",
+
         "ultimo_mes": "Último Mês",
+
         "custo_atual": "Custo Atual",
-        "menor_custo_historico": "Menor Custo Histórico",
-        "saving_absoluto": "Saving Absoluto",
-        "saving_percentual": "Saving (%)",
+
+        "menor_custo_historico":
+            "Menor Custo Histórico",
+
+        "fornecedor_menor_custo_historico":
+            "Fornecedor Menor Custo Histórico",
+
+        "saving_absoluto":
+            "Potencial Economia (R$)",
+
+        "saving_percentual":
+            "Potencial Economia (%)",
+
         "status": "Status"
     }
+    
+    
 
     for celula in ws[1]:
         if celula.value in cabecalhos:
@@ -601,17 +620,13 @@ def run(arquivo_excel):
             wb["Base Produtos"]
         )
 
-    if "Top Savings" in wb.sheetnames:
+    if "Saving" in wb.sheetnames:
 
         formatar_top_savings(
-            wb["Top Savings"]
+            wb["Saving"]
         )
 
-    if "Saving Completo" in wb.sheetnames:
 
-        formatar_saving_completo(
-            wb["Saving Completo"]
-        )
 
     if "Inflacao" in wb.sheetnames:
 
