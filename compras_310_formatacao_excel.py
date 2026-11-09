@@ -441,6 +441,8 @@ def formatar_abc_produtos(ws):
 
     
 def formatar_top_savings(ws):
+    
+    print(">>> FORMATANDO ABA SAVING <<<")
 
     cabecalhos = {
 
