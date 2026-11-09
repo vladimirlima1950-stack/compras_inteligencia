@@ -1,8 +1,8 @@
 # compras_170_ranking_saving.py
 
-# =============================================================
+# ============================================================
 # CRIAÇÃO DA TABELA TB_RANKING_SAVING
-# ============================================================+
+# ============================================================
 
 import duckdb
 
@@ -41,6 +41,8 @@ def run(caminho_banco):
             custo_atual,
 
             menor_custo_historico,
+
+            fornecedor_menor_custo_historico,
 
             saving_absoluto,
 
