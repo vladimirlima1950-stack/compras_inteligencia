@@ -42,11 +42,11 @@ def run(caminho_banco):
                     ROW_NUMBER() OVER (
 
                         PARTITION BY
-
                             codigo_produto,
                             codigo_fornecedor
 
-                        ORDER BY ano_mes DESC
+                        ORDER BY
+                            ano_mes DESC
 
                     ) AS rn
 
@@ -64,17 +64,38 @@ def run(caminho_banco):
 
                 codigo_produto,
 
-                codigo_fornecedor,
+                fornecedor_menor_custo_historico,
 
-                MIN(custo_medio)
-                    AS menor_custo_historico
+                menor_custo_historico
 
-            FROM tb_produto_fornecedor_mes
+            FROM (
 
-            GROUP BY
+                SELECT
 
-                codigo_produto,
-                codigo_fornecedor
+                    codigo_produto,
+
+                    codigo_fornecedor
+                        AS fornecedor_menor_custo_historico,
+
+                    custo_medio
+                        AS menor_custo_historico,
+
+                    ROW_NUMBER() OVER (
+
+                        PARTITION BY
+                            codigo_produto
+
+                        ORDER BY
+                            custo_medio ASC,
+                            ano_mes ASC
+
+                    ) AS rn
+
+                FROM tb_produto_fornecedor_mes
+
+            )
+
+            WHERE rn = 1
 
         ),
 
@@ -94,6 +115,8 @@ def run(caminho_banco):
 
                 m.menor_custo_historico,
 
+                m.fornecedor_menor_custo_historico,
+
                 ROUND(
 
                     u.custo_medio
@@ -106,10 +129,8 @@ def run(caminho_banco):
                 ROUND(
 
                     (
-
                         u.custo_medio
                         - m.menor_custo_historico
-
                     )
 
                     * 100.0
@@ -131,9 +152,6 @@ def run(caminho_banco):
 
                 ON u.codigo_produto =
                    m.codigo_produto
-
-               AND u.codigo_fornecedor =
-                   m.codigo_fornecedor
 
             WHERE
 
