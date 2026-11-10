@@ -1,3 +1,5 @@
+# compras_000_master_pipeline.py
+
 # ============================================================
 # COMPRAS INTELIGENCIA
 # PIPELINE MESTRE
@@ -29,6 +31,11 @@ from compras_060_fornecedor_mes import (
 from compras_070_produto_fornecedor_mes import (
     run as produto_fornecedor_mes
 )
+
+from compras_080_historico_compras import (
+    run as historico_compras
+)
+
 
 from compras_100_resumo_executivo import (
     run as resumo_executivo
@@ -136,6 +143,11 @@ def processar_compras(
     produto_fornecedor_mes(
         caminho_banco
     )
+
+    historico_compras(
+        caminho_banco
+    )
+
 
     resumo_executivo(
         caminho_banco
