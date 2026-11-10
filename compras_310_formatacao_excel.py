@@ -592,7 +592,35 @@ def formatar_inflacao(ws):
 
 
 
+def formatar_evolucao_historica(ws):
 
+    cabecalhos = {
+        "codigo_produto": "Código do Item",
+        "data_compra": "Data da Compra",
+        "codigo_fornecedor": "Fornecedor",
+        "custo_unitario": "Custo Unitário",
+        "quantidade": "Quantidade",
+        "custo_total": "Custo Total"
+    }
+
+    for celula in ws[1]:
+
+        if celula.value in cabecalhos:
+            celula.value = cabecalhos[celula.value]
+
+    for row in ws.iter_rows(min_row=2):
+
+        # Data
+        row[1].number_format = 'dd/mm/yyyy'
+
+        # Custo Unitário
+        row[3].number_format = '#,##0.0000'
+
+        # Quantidade
+        row[4].number_format = '#,##0'
+
+        # Custo Total
+        row[5].number_format = '#,##0.00'
 
 
 
@@ -675,6 +703,13 @@ def run(arquivo_excel):
         formatar_abc_produtos(
             wb["ABC Produtos"]
         )
+
+    if "Evolução Histórica" in wb.sheetnames:
+
+        formatar_evolucao_historica(
+            wb["Evolução Histórica"]
+        )
+
 
 
     # ========================================================
