@@ -267,14 +267,14 @@ def run(caminho_banco):
             "Aba criada: Variação de Preços"
         )
 
-# ====================================================
-# EVOLUÇÃO HISTÓRICA
-# ====================================================
+        # ====================================================
+        # EVOLUÇÃO HISTÓRICA
+        # ====================================================
 
-exportar_historico_compras(
-    con,
-    writer
-)
+        exportar_historico_compras(
+            con,
+            writer
+        )
 
 
     con.close()
