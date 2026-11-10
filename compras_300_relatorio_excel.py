@@ -8,6 +8,46 @@
 import duckdb
 import pandas as pd
 
+# ============================================================
+# EVOLUÇÃO HISTÓRICA
+# ============================================================
+
+def exportar_historico_compras(
+    con,
+    writer
+):
+
+    df = con.execute("""
+        SELECT
+
+            codigo_produto,
+            data_compra,
+            codigo_fornecedor,
+            custo_unitario,
+            quantidade,
+            custo_total
+
+        FROM tb_historico_compras
+
+        ORDER BY
+            codigo_produto,
+            data_compra
+
+    """).df()
+
+    df.to_excel(
+        writer,
+        sheet_name="Evolução Histórica",
+        index=False
+    )
+
+    print(
+        "Aba criada: Evolução Histórica"
+    )
+
+
+
+
 
 def run(caminho_banco):
 
@@ -226,6 +266,16 @@ def run(caminho_banco):
         print(
             "Aba criada: Variação de Preços"
         )
+
+# ====================================================
+# EVOLUÇÃO HISTÓRICA
+# ====================================================
+
+exportar_historico_compras(
+    con,
+    writer
+)
+
 
     con.close()
 
