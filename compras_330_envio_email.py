@@ -96,7 +96,7 @@ def run(
             <strong>
             Compras Inteligência
             </strong>
-            foi processado com sucesso.
+            foi processado com sucesso e já está disponível para análise.
 
         </p>
 
@@ -104,8 +104,8 @@ def run(
                   font-size:15px;
                   color:#333;'>
 
-            A planilha Excel segue anexada
-            para sua análise.
+            A planilha Excel segue anexada contendo os principais indicadores, análises e oportunidades identificadas no
+            período avaliado.
 
         </p>
 
@@ -125,23 +125,35 @@ def run(
 
             <li>Compras Mensais</li>
 
-            <li>Ranking de Fornecedores</li>
+            <li>Top Fornecedores</li>
 
-            <li>Curva ABC de Fornecedores</li>
+            <li>ABC Fornecedores</li>
 
-            <li>Ranking de Produtos</li>
+            <li>Top Produtos</li>
 
-            <li>Curva ABC de Produtos</li>
+            <li>Base Produtos</li>
+            
+            <li>ABC Produtos</li>
 
-            <li>Evolução de Custos</li>
+            <li>Top Oportunidades</li>
 
-            <li>Saving Potencial</li>
+            <li>Oportunidades de Economia</li>
 
-            <li>Ranking de Saving</li>
+            <li>Variação de Preços</li>
 
-            <li>Inflação de Compras</li>
+            <li>Evolução Histórica</li>
+            
+            
 
         </ul>
+        
+        <ul>
+        A aba Evolução Histórica apresenta o histórico cronológico das compras por item, permitindo analisar a
+        evolução dos fornecedores, dos custos unitários, das quantidades adquiridas e dos valores totais
+        comprados ao longo do período avaliado.
+        
+        </ul>
+        
 
         <p style='font-family:Arial;
                   font-size:15px;
