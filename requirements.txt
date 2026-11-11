@@ -6,3 +6,4 @@ xlrd
 requests
 python-multipart
 duckdb
+python-bcb
