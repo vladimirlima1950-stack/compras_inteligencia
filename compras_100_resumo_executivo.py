@@ -87,7 +87,46 @@ def run(caminho_banco):
 
             LIMIT 1
 
+        ),
+
+        indices AS (
+
+            SELECT
+
+                MAX(
+                    CASE
+                        WHEN indice = 'IPCA'
+                        THEN acumulado
+                    END
+                ) AS ipca_acumulado,
+
+                MAX(
+                    CASE
+                        WHEN indice = 'IGPM'
+                        THEN acumulado
+                    END
+                ) AS igpm_acumulado,
+
+                MAX(
+                    CASE
+                        WHEN indice = 'IPAM'
+                        THEN acumulado
+                    END
+                ) AS ipam_acumulado,
+
+                MAX(
+                    CASE
+                        WHEN indice = 'IPADI'
+                        THEN acumulado
+                    END
+                ) AS ipadi_acumulado
+
+            FROM tb_indices_economicos_periodo
+
         )
+
+
+
 
         SELECT
 
@@ -115,7 +154,13 @@ def run(caminho_banco):
                 AS menor_mes_compra,
 
             me.valor_comprado
-                AS valor_menor_mes
+                AS valor_menor_mes,
+                
+            i.ipca_acumulado,
+            i.igpm_acumulado,
+            i.ipam_acumulado,
+            i.ipadi_acumulado
+                
 
         FROM resumo r
 
@@ -124,6 +169,8 @@ def run(caminho_banco):
         CROSS JOIN maior_mes ma
 
         CROSS JOIN menor_mes me
+        
+        CROSS JOIN indices i
 
     """)
 
@@ -187,6 +234,27 @@ def run(caminho_banco):
         f"Valor do Menor Mês: "
         f"{resumo[9]:,.2f}"
     )
+    
+    print(
+    f"IPCA Acumulado: "
+    f"{resumo[10]:.2f}%"
+    )
+
+    print(
+        f"IGPM Acumulado: "
+        f"{resumo[11]:.2f}%"
+    )
+
+    print(
+        f"IPAM Acumulado: "
+        f"{resumo[12]:.2f}%"
+    )
+
+    print(
+        f"IPADI Acumulado: "
+        f"{resumo[13]:.2f}%"
+    )
+        
 
     con.close()
     
