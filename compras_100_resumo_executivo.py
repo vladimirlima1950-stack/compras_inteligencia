@@ -182,6 +182,13 @@ def run(caminho_banco):
     FROM tb_resumo_executivo
 
     """).fetchone()
+    
+    print("\nCOLUNAS DO RESUMO:")
+
+    for i, valor in enumerate(resumo):
+        print(i, valor)
+    
+    
 
     print("\n======== RESUMO EXECUTIVO ========\n")
 
