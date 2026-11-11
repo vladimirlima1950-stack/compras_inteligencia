@@ -1,5 +1,5 @@
-# compras_200_relatorio_executivo.py
 # ============================================================
+# compras_200_relatorio_executivo.py
 # CRIAÇÃO DA TABELA TB_RELATORIO_EXECUTIVO
 # ============================================================
 
@@ -180,7 +180,7 @@ def run(caminho_banco):
 
     print(
         f"Oportunidades Totais: "
-        f"{relatorio[104}"
+        f"{relatorio[14]}"
     )
 
     print(

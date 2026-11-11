@@ -239,8 +239,8 @@ def run(caminho_banco):
     )
     
     print(
-    f"IPCA Acumulado: "
-    f"{resumo[10]:.2f}%"
+        f"IPCA Acumulado: "
+        f"{resumo[10]:.2f}%"
     )
 
     print(
