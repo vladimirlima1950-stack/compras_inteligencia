@@ -1,25 +1,93 @@
-
 # compras_015_atualiza_indices_economicos.py
+
 # ============================================================
-# ATUALIZA BASE DE ÍNDICES ECONÔMICOS
+# ATUALIZA PLANILHA DE ÍNDICES ECONÔMICOS
 # ============================================================
 
-import duckdb
+from pathlib import Path
+
 import pandas as pd
 
 from bcb import sgs
 
 
-def run(caminho_banco):
+# ============================================================
+# CONFIGURAÇÕES
+# ============================================================
+
+ARQUIVO_INDICES = (
+    "dados/indices_economicos.xlsx"
+)
+
+ABA_INDICES = (
+    "tb_indices_economicos"
+)
+
+ABA_PARAMETROS = (
+    "parametros"
+)
+
+
+# ============================================================
+# PROCESSAMENTO
+# ============================================================
+
+def run():
 
     print(
         "\n======== ATUALIZAÇÃO DOS ÍNDICES ECONÔMICOS ========\n"
     )
 
-    con = duckdb.connect(
-        caminho_banco,
-        read_only=False
+    arquivo = Path(
+        ARQUIVO_INDICES
     )
+
+    if not arquivo.exists():
+
+        print(
+            "Planilha não encontrada."
+        )
+
+        return
+
+    # --------------------------------------------------------
+    # LEITURA DA BASE EXISTENTE
+    # --------------------------------------------------------
+
+    df_atual = pd.read_excel(
+        ARQUIVO_INDICES,
+        sheet_name=ABA_INDICES
+    )
+
+    df_atual["data_referencia"] = pd.to_datetime(
+        df_atual["data_referencia"]
+    )
+
+    ultima_data = (
+        df_atual["data_referencia"]
+        .max()
+    )
+
+    print(
+        f"Última data encontrada: "
+        f"{ultima_data.date()}"
+    )
+
+    data_inicio = (
+        ultima_data +
+        pd.DateOffset(months=1)
+    ).strftime(
+        "%Y-%m-%d"
+    )
+
+    print(
+        f"Buscando dados a partir de: "
+        f"{data_inicio}"
+    )
+
+    # --------------------------------------------------------
+    # SÉRIES SGS
+    # --------------------------------------------------------
 
     series_dict = {
         "IPCA": 433,
@@ -30,9 +98,9 @@ def run(caminho_banco):
 
     try:
 
-        df = sgs.get(
+        df_sgs = sgs.get(
             series_dict,
-            start="2025-01-01"
+            start=data_inicio
         )
 
     except Exception as erro:
@@ -42,35 +110,30 @@ def run(caminho_banco):
             f"{erro}"
         )
 
-        con.close()
         return
 
-    con.execute("""
+    # --------------------------------------------------------
+    # SEM NOVOS DADOS
+    # --------------------------------------------------------
 
-        DROP TABLE IF EXISTS
-        tb_indices_economicos
+    if df_sgs.empty:
 
-    """)
-
-    con.execute("""
-
-        CREATE TABLE
-        tb_indices_economicos (
-
-            data_referencia DATE,
-            indice VARCHAR,
-            valor DOUBLE
-
+        print(
+            "Nenhum mês novo encontrado."
         )
 
-    """)
+        return
+
+    # --------------------------------------------------------
+    # TRANSFORMA PARA FORMATO PADRÃO
+    # --------------------------------------------------------
 
     registros = []
 
-    for indice in df.columns:
+    for indice in df_sgs.columns:
 
         df_indice = (
-            df[[indice]]
+            df_sgs[[indice]]
             .dropna()
             .reset_index()
         )
@@ -78,64 +141,145 @@ def run(caminho_banco):
         for _, row in df_indice.iterrows():
 
             registros.append(
-                (
-                    row["Date"],
-                    indice,
-                    float(row[indice])
-                )
+                {
+                    "data_referencia":
+                        row["Date"],
+
+                    "indice":
+                        indice,
+
+                    "valor":
+                        float(
+                            row[indice]
+                        )
+                }
             )
 
-    con.executemany("""
-
-        INSERT INTO
-        tb_indices_economicos
-
-        VALUES (?, ?, ?)
-
-    """, registros)
-
-    total = con.execute("""
-
-        SELECT COUNT(*)
-
-        FROM tb_indices_economicos
-
-    """).fetchone()[0]
-
-    print(
-        f"tb_indices_economicos criada com "
-        f"{total} registros."
+    df_novo = pd.DataFrame(
+        registros
     )
 
-    resumo = con.execute("""
+    # --------------------------------------------------------
+    # CONCATENA BASE ANTIGA + NOVA
+    # --------------------------------------------------------
 
-        SELECT
-            indice,
-            COUNT(*) registros,
-            MIN(data_referencia),
-            MAX(data_referencia)
+    df_final = pd.concat(
+        [
+            df_atual,
+            df_novo
+        ],
+        ignore_index=True
+    )
 
-        FROM tb_indices_economicos
+    # --------------------------------------------------------
+    # REMOVE DUPLICADOS
+    # CHAVE:
+    # data_referencia + indice
+    # --------------------------------------------------------
 
-        GROUP BY indice
+    df_final = df_final.drop_duplicates(
+        subset=[
+            "data_referencia",
+            "indice"
+        ],
+        keep="last"
+    )
 
-        ORDER BY indice
+    # --------------------------------------------------------
+    # ORDENA
+    # --------------------------------------------------------
 
-    """).fetchall()
+    df_final = df_final.sort_values(
+        [
+            "indice",
+            "data_referencia"
+        ]
+    )
 
-    print("\nResumo dos índices:\n")
+    df_final = df_final.reset_index(
+        drop=True
+    )
 
-    for item in resumo:
+    # --------------------------------------------------------
+    # VALIDAÇÃO
+    # --------------------------------------------------------
 
-        print(
-            f"{item[0]} | "
-            f"{item[1]} registros | "
-            f"{item[2]} até {item[3]}"
+    duplicados = (
+        df_final
+        .duplicated(
+            subset=[
+                "data_referencia",
+                "indice"
+            ]
+        )
+        .sum()
+    )
+
+    print(
+        f"Duplicados encontrados: "
+        f"{duplicados}"
+    )
+
+    # --------------------------------------------------------
+    # PARAMETROS
+    # --------------------------------------------------------
+
+    parametros = pd.DataFrame(
+        [
+            {
+                "parametro":
+                    "meses_analise",
+
+                "valor":
+                    24
+            },
+            {
+                "parametro":
+                    "versao_base",
+
+                "valor":
+                    1
+            },
+            {
+                "parametro":
+                    "data_atualizacao",
+
+                "valor":
+                    pd.Timestamp.today()
+                    .date()
+            }
+        ]
+    )
+
+    # --------------------------------------------------------
+    # SALVA
+    # --------------------------------------------------------
+
+    with pd.ExcelWriter(
+        ARQUIVO_INDICES,
+        engine="openpyxl"
+    ) as writer:
+
+        df_final.to_excel(
+            writer,
+            sheet_name=ABA_INDICES,
+            index=False
         )
 
-    con.close()
-        
+        parametros.to_excel(
+            writer,
+            sheet_name=ABA_PARAMETROS,
+            index=False
+        )
 
+    print(
+        f"Base atualizada com "
+        f"{len(df_final)} registros."
+    )
+
+    print(
+        "Atualização concluída."
+    )
 
 
 # ============================================================
@@ -144,10 +288,4 @@ def run(caminho_banco):
 
 if __name__ == "__main__":
 
-    print("INICIANDO TESTE...")
-
-    run(
-        "compras_inteligencia.duckdb"
-    )
-
-    print("FINALIZADO.")
+    run()
