@@ -183,10 +183,6 @@ def run(caminho_banco):
 
     """).fetchone()
     
-    print("\nCOLUNAS DO RESUMO:")
-
-    for i, valor in enumerate(resumo):
-        print(i, valor)
     
     
 

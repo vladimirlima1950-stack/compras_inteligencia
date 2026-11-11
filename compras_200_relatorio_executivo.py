@@ -43,6 +43,14 @@ def run(caminho_banco):
             r.menor_mes_compra,
 
             r.valor_menor_mes,
+            
+            r.ipca_acumulado,
+
+            r.igpm_acumulado,
+
+            r.ipam_acumulado,
+
+            r.ipadi_acumulado,
 
             s.oportunidades_totais,
 
@@ -148,64 +156,83 @@ def run(caminho_banco):
         f"Valor do Menor Mes: "
         f"{relatorio[9]:,.2f}"
     )
+    print(
+        f"IPCA Acumulado: "
+        f"{relatorio[10]}%"
+    )
+
+    print(
+        f"IGPM Acumulado: "
+        f"{relatorio[11]}%"
+    )
+
+    print(
+        f"IPAM Acumulado: "
+        f"{relatorio[12]}%"
+    )
+
+    print(
+        f"IPADI Acumulado: "
+        f"{relatorio[13]}%"
+    )
 
     print()
 
     print(
         f"Oportunidades Totais: "
-        f"{relatorio[10]}"
+        f"{relatorio[104}"
     )
 
     print(
         f"NORMAL: "
-        f"{relatorio[11]}"
+        f"{relatorio[15]}"
     )
 
     print(
         f"ATENCAO: "
-        f"{relatorio[12]}"
+        f"{relatorio[16]}"
     )
 
     print(
         f"ANOMALIA: "
-        f"{relatorio[13]}"
+        f"{relatorio[17]}"
     )
 
     print(
         f"Saving Total: "
-        f"{relatorio[14]:,.2f}"
-    )
-
-    print(
-        f"Saving Medio: "
-        f"{relatorio[15]:,.2f}"
-    )
-
-    print(
-        f"Maior Saving: "
-        f"{relatorio[16]:,.2f}"
-    )
-
-    print(
-        f"Maior Saving NORMAL: "
-        f"{relatorio[17]:,.2f}"
-    )
-
-    print(
-        f"Maior Saving ATENCAO: "
         f"{relatorio[18]:,.2f}"
     )
 
     print(
-        f"Maior Saving ANOMALIA: "
+        f"Saving Medio: "
         f"{relatorio[19]:,.2f}"
+    )
+
+    print(
+        f"Maior Saving: "
+        f"{relatorio[20]:,.2f}"
+    )
+
+    print(
+        f"Maior Saving NORMAL: "
+        f"{relatorio[21]:,.2f}"
+    )
+
+    print(
+        f"Maior Saving ATENCAO: "
+        f"{relatorio[22]:,.2f}"
+    )
+
+    print(
+        f"Maior Saving ANOMALIA: "
+        f"{relatorio[23]:,.2f}"
     )
 
     print()
 
     print(
         f"Inflacao Media de Compras: "
-        f"{relatorio[20]}%"
+        f"{relatorio[24]}%"
     )
 
     con.close()
