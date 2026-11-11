@@ -295,7 +295,7 @@ def formatar_valores_resumo(ws):
     }
     
     
-        indicadores_percentuais = {
+    indicadores_percentuais = {
         "IPCA Acumulado (%)",
         "IGPM Acumulado (%)",
         "IPAM Acumulado (%)",
