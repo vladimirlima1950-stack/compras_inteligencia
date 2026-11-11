@@ -189,6 +189,20 @@ def reconstruir_resumo(ws):
 
         ("Valor do Menor Mês",
          dados["valor_menor_mes"]),
+         
+         ("IPCA Acumulado",
+         dados["ipca_acumulado"]),
+
+        ("IGPM Acumulado",
+         dados["igpm_acumulado"]),
+
+        ("IPAM Acumulado",
+         dados["ipam_acumulado"]),
+
+        ("IPADI Acumulado",
+         dados["ipadi_acumulado"]),
+                 
+         
 
         ("Oportunidades Totais",
          dados["oportunidades_totais"]),
@@ -256,6 +270,13 @@ def formatar_valores_resumo(ws):
         "Compra Média Mensal",
         "Valor do Maior Mês",
         "Valor do Menor Mês",
+        
+        "IPCA Acumulado",
+        "IGPM Acumulado",
+        "IPAM Acumulado",
+        "IPADI Acumulado",
+
+        
         "Potencial Total de Economia",
         "Potencial Médio de Economia",
         "Maior Potencial de Economia",
