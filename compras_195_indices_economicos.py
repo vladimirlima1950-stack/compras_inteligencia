@@ -1,5 +1,7 @@
 # compras_195_indices_economicos.py
 
+
+
 # ============================================================
 # CRIAÇÃO DA TABELA TB_INDICES_ECONOMICOS_PERIODO
 # ============================================================
@@ -9,7 +11,7 @@ import pandas as pd
 
 
 # ============================================================
-# CÁLCULO DE ACUMULADO
+# CALCULA ACUMULADO
 # ============================================================
 
 def calcular_acumulado(df):
@@ -35,6 +37,11 @@ def calcular_acumulado(df):
 
 def run(caminho_banco):
 
+    print(
+            "\n======== EXECUTANDO MODULO 195 ==========\n"
+        )
+
+
     con = duckdb.connect(
         caminho_banco,
         read_only=False
@@ -45,17 +52,17 @@ def run(caminho_banco):
     )
 
     # --------------------------------------------------------
-    # PERÍODO DE ANÁLISE
+    # OBTÉM PERÍODO DAS COMPRAS
     # --------------------------------------------------------
 
     periodo = con.execute("""
 
         SELECT
 
-            data_inicio,
-            data_fim
+            MIN(data_nf),
+            MAX(data_nf)
 
-        FROM tb_periodo_analise
+        FROM tb_fato_compras
 
     """).fetchone()
 
@@ -68,46 +75,61 @@ def run(caminho_banco):
     )
 
     # --------------------------------------------------------
-    # CARREGA ÍNDICES
+    # CARREGA PLANILHA DE ÍNDICES
     # --------------------------------------------------------
 
-    df = con.execute("""
+    df_indices = pd.read_excel(
+        "dados/indices_economicos.xlsx",
+        sheet_name="tb_indices_economicos"
+    )
 
-        SELECT
-
-            data_referencia,
-            indice,
-            valor
-
-        FROM tb_indices_economicos
-
-        WHERE data_referencia
-        BETWEEN ? AND ?
-
-        ORDER BY
-            indice,
-            data_referencia
-
-    """, (
-        data_inicio,
-        data_fim
-    )).fetchdf()
+    # garante tipo data
+    df_indices["data_referencia"] = pd.to_datetime(
+        df_indices["data_referencia"]
+    )
 
     # --------------------------------------------------------
-    # CÁLCULO DOS ACUMULADOS
+    # FILTRA PERÍODO
+    # --------------------------------------------------------
+
+    df_indices = df_indices[
+
+        (
+            df_indices["data_referencia"]
+            >= pd.to_datetime(data_inicio)
+        )
+
+        &
+
+        (
+            df_indices["data_referencia"]
+            <= pd.to_datetime(data_fim)
+        )
+
+    ]
+
+    print(
+        f"Registros encontrados: "
+        f"{len(df_indices)}"
+    )
+
+    # --------------------------------------------------------
+    # CALCULA ACUMULADOS
     # --------------------------------------------------------
 
     acumulados = []
 
     for indice in [
+
         "IPCA",
         "IGPM",
         "IPAM",
         "IPADI"
+
     ]:
 
-        df_indice = df[
-            df["indice"] == indice
+        df_indice = df_indices[
+            df_indices["indice"] == indice
         ]
 
         acumulado = calcular_acumulado(
@@ -115,14 +137,16 @@ def run(caminho_banco):
         )
 
         acumulados.append(
+
             (
                 indice,
                 acumulado
             )
+
         )
 
     # --------------------------------------------------------
-    # TABELA FINAL
+    # CRIA TABELA FINAL
     # --------------------------------------------------------
 
     con.execute("""
@@ -153,15 +177,18 @@ def run(caminho_banco):
 
     """, acumulados)
 
+    # --------------------------------------------------------
+    # LOG
+    # --------------------------------------------------------
+
     print(
         "\nÍndices acumulados:"
     )
 
-    for item in acumulados:
+    for indice, valor in acumulados:
 
         print(
-            f"{item[0]}: "
-            f"{item[1]}%"
+            f"{indice}: {valor}%"
         )
 
     total = con.execute("""
@@ -173,8 +200,10 @@ def run(caminho_banco):
     """).fetchone()[0]
 
     print(
-        f"\ntb_indices_economicos_periodo criada com "
-        f"{total} registros."
+
+        f"\ntb_indices_economicos_periodo "
+        f"criada com {total} registros."
+
     )
 
     con.close()
