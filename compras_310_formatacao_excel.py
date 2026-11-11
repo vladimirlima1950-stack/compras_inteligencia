@@ -190,16 +190,16 @@ def reconstruir_resumo(ws):
         ("Valor do Menor Mês",
          dados["valor_menor_mes"]),
          
-         ("IPCA Acumulado",
+         ("IPCA Acumulado (%)",
          dados["ipca_acumulado"]),
 
-        ("IGPM Acumulado",
+        ("IGPM Acumulado (%)",
          dados["igpm_acumulado"]),
 
-        ("IPAM Acumulado",
+        ("IPAM Acumulado (%)",
          dados["ipam_acumulado"]),
 
-        ("IPADI Acumulado",
+        ("IPADI Acumulado (%)",
          dados["ipadi_acumulado"]),
                  
          
@@ -271,10 +271,6 @@ def formatar_valores_resumo(ws):
         "Valor do Maior Mês",
         "Valor do Menor Mês",
         
-        "IPCA Acumulado",
-        "IGPM Acumulado",
-        "IPAM Acumulado",
-        "IPADI Acumulado",
 
         
         "Potencial Total de Economia",
@@ -297,14 +293,29 @@ def formatar_valores_resumo(ws):
         "Oportunidades Atenção",
         "Oportunidades Anomalia"
     }
+    
+    
+        indicadores_percentuais = {
+        "IPCA Acumulado (%)",
+        "IGPM Acumulado (%)",
+        "IPAM Acumulado (%)",
+        "IPADI Acumulado (%)",
+        "Variação Média dos Preços"
+    }
 
     for row in ws.iter_rows(min_row=2):
 
         indicador = row[0].value
         valor = row[1]
 
-        if indicador in indicadores_2_casas:
+        if indicador in indicadores_percentuais:
+            valor.number_format = '#,##0.00"%"'
+    
+        
+
+        elif indicador in indicadores_2_casas:
             valor.number_format = '#,##0.00'
+
 
         elif indicador in indicadores_inteiros:
             valor.number_format = '#,##0'
