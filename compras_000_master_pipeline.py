@@ -9,6 +9,15 @@ from compras_010_valida_arquivo import (
     processar_compras as validar_arquivo
 )
 
+from compras_015_atualiza_indices_economicos import (
+    run as atualizar_indices
+)
+
+from compras_018_periodo_analise import (
+    run as periodo_analise
+)
+
+
 from compras_020_fato_compras import run as fato_compras
 
 from compras_030_dim_calendario import (
@@ -80,6 +89,11 @@ from compras_190_inflacao_compras import (
     run as inflacao_compras
 )
 
+
+from compras_195_indices_economicos import (
+    run as indices_economicos
+)
+
 from compras_200_relatorio_executivo import (
     run as relatorio_executivo
 )
@@ -118,6 +132,19 @@ def processar_compras(
     caminho_banco = (
         "compras_inteligencia.duckdb"
     )
+
+    print("\n=== EXECUTANDO 015 - INDICES ECONOMICOS ===")
+
+    atualizar_indices(
+        caminho_banco
+    )
+
+    print("\n=== EXECUTANDO 018 - PERIODO ANALISE ===")
+    periodo_analise(
+        caminho_banco
+    )
+
+    print("\n=== EXECUTANDO 020 - FATO COMPRAS ===")
 
     fato_compras(
         caminho_banco
@@ -190,6 +217,11 @@ def processar_compras(
         caminho_banco
     )
 
+    indices_economicos(
+        caminho_banco
+    )
+
+
     relatorio_executivo(
         caminho_banco
     )
@@ -210,6 +242,8 @@ def processar_compras(
         nome_cliente
     )
 
+
+    print("\nPIPELINE FINALIZADO COM SUCESSO")
 
     return resultado
     

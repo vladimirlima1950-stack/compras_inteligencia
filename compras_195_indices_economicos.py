@@ -1,36 +1,30 @@
 # compras_195_indices_economicos.py
 
 # ============================================================
-# CRIAÇÃO DAS TABELAS
-# TB_INDICES_ECONOMICOS
-# TB_INDICES_ECONOMICOS_PERIODO
+# CRIAÇÃO DA TABELA TB_INDICES_ECONOMICOS_PERIODO
 # ============================================================
 
 import duckdb
 import pandas as pd
 
-from bcb import sgs
-
 
 # ============================================================
-# CALCULA ACUMULADO
+# CÁLCULO DE ACUMULADO
 # ============================================================
 
-def calcular_acumulado(serie):
+def calcular_acumulado(df):
 
-    serie = serie.dropna()
-
-    if len(serie) == 0:
+    if len(df) == 0:
         return None
 
     acumulado = (
-        (1 + serie / 100)
+        (1 + (df["valor"] / 100))
         .prod()
         - 1
     ) * 100
 
     return round(
-        acumulado,
+        float(acumulado),
         2
     )
 
@@ -47,141 +41,88 @@ def run(caminho_banco):
     )
 
     print(
-        "\n======== ÍNDICES ECONÔMICOS ========\n"
+        "\n======== ÍNDICES ECONÔMICOS DO PERÍODO ========\n"
     )
 
     # --------------------------------------------------------
-    # PERÍODO DO CLIENTE
+    # PERÍODO DE ANÁLISE
     # --------------------------------------------------------
 
     periodo = con.execute("""
 
         SELECT
-            MIN(data_nf),
-            MAX(data_nf)
 
-        FROM tb_fato_compras
+            data_inicio,
+            data_fim
+
+        FROM tb_periodo_analise
 
     """).fetchone()
 
-    data_inicial = periodo[0]
-    data_final = periodo[1]
+    data_inicio = periodo[0]
+    data_fim = periodo[1]
 
     print(
         f"Período analisado: "
-        f"{data_inicial} até {data_final}"
+        f"{data_inicio} até {data_fim}"
     )
 
     # --------------------------------------------------------
-    # DOWNLOAD DOS ÍNDICES
+    # CARREGA ÍNDICES
     # --------------------------------------------------------
 
-    series_dict = {
-        "IPCA": 433,
-        "IGPM": 189,
-        "IPAM": 7450,
-        "IPADI": 190
-    }
+    df = con.execute("""
 
-    try:
+        SELECT
 
-        df = sgs.get(
-            series_dict,
-            start=data_inicial,
-            end=data_final
-        )
+            data_referencia,
+            indice,
+            valor
 
-    except Exception as erro:
+        FROM tb_indices_economicos
 
-        print(
-            f"Erro ao acessar "
-            f"Banco Central: {erro}"
-        )
+        WHERE data_referencia
+        BETWEEN ? AND ?
 
-        con.close()
-        return
+        ORDER BY
+            indice,
+            data_referencia
+
+    """, (
+        data_inicio,
+        data_fim
+    )).fetchdf()
 
     # --------------------------------------------------------
-    # TB_INDICES_ECONOMICOS
-    # --------------------------------------------------------
-
-    con.execute("""
-
-        DROP TABLE IF EXISTS
-        tb_indices_economicos
-
-    """)
-
-    con.execute("""
-
-        CREATE TABLE
-        tb_indices_economicos (
-
-            data_referencia DATE,
-            indice VARCHAR,
-            valor DOUBLE
-
-        )
-
-    """)
-
-    registros = []
-
-    for indice in df.columns:
-
-        df_temp = (
-            df[[indice]]
-            .dropna()
-            .reset_index()
-        )
-
-        for _, row in df_temp.iterrows():
-
-            registros.append(
-
-                (
-                    row["Date"],
-                    indice,
-                    float(row[indice])
-                )
-
-            )
-
-    con.executemany("""
-
-        INSERT INTO
-        tb_indices_economicos
-
-        VALUES (?, ?, ?)
-
-    """, registros)
-
-    print(
-        f"tb_indices_economicos criada com "
-        f"{len(registros)} registros."
-    )
-
-    # --------------------------------------------------------
-    # ACUMULADOS
+    # CÁLCULO DOS ACUMULADOS
     # --------------------------------------------------------
 
     acumulados = []
 
-    for indice in df.columns:
+    for indice in [
+        "IPCA",
+        "IGPM",
+        "IPAM",
+        "IPADI"
+    ]:
 
-        valor = calcular_acumulado(
-            df[indice]
+        df_indice = df[
+            df["indice"] == indice
+        ]
+
+        acumulado = calcular_acumulado(
+            df_indice
         )
 
         acumulados.append(
             (
                 indice,
-                valor
+                acumulado
             )
         )
 
     # --------------------------------------------------------
-    # TB_INDICES_ECONOMICOS_PERIODO
+    # TABELA FINAL
     # --------------------------------------------------------
 
     con.execute("""
@@ -216,27 +157,35 @@ def run(caminho_banco):
         "\nÍndices acumulados:"
     )
 
-    for indice, valor in acumulados:
+    for item in acumulados:
 
         print(
-            f"{indice}: "
-            f"{valor}%"
+            f"{item[0]}: "
+            f"{item[1]}%"
         )
 
-    amostra = con.execute("""
+    total = con.execute("""
 
-        SELECT *
+        SELECT COUNT(*)
 
         FROM tb_indices_economicos_periodo
 
-    """).fetchall()
+    """).fetchone()[0]
 
     print(
-        "\nTabela criada:"
-    )
-
-    print(
-        amostra
+        f"\ntb_indices_economicos_periodo criada com "
+        f"{total} registros."
     )
 
     con.close()
+
+
+# ============================================================
+# TESTE LOCAL
+# ============================================================
+
+if __name__ == "__main__":
+
+    run(
+        "compras_inteligencia.duckdb"
+    )
