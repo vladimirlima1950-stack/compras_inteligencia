@@ -135,9 +135,7 @@ def processar_compras(
 
     print("\n=== EXECUTANDO 015 - INDICES ECONOMICOS ===")
 
-    atualizar_indices(
-        caminho_banco
-    )
+    atualizar_indices()
 
     print("\n=== EXECUTANDO 018 - PERIODO ANALISE ===")
     periodo_analise(
