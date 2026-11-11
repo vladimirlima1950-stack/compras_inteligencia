@@ -174,6 +174,11 @@ def processar_compras(
     )
 
 
+    indices_economicos(
+        caminho_banco
+    )
+
+
     resumo_executivo(
         caminho_banco
     )
@@ -212,10 +217,6 @@ def processar_compras(
     )
 
     inflacao_compras(
-        caminho_banco
-    )
-
-    indices_economicos(
         caminho_banco
     )
 
