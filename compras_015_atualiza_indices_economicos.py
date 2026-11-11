@@ -96,6 +96,7 @@ def run():
         "IPADI": 190
     }
 
+
     try:
 
         df_sgs = sgs.get(
@@ -105,12 +106,28 @@ def run():
 
     except Exception as erro:
 
+        mensagem = str(erro)
+
+        if (
+            "Value(s) not found" in mensagem
+        ):
+
+            print(
+                "Nenhum índice novo disponível."
+            )
+
+            return
+
         print(
             f"Erro ao acessar Banco Central: "
             f"{erro}"
         )
 
         return
+
+
+
+
 
     # --------------------------------------------------------
     # SEM NOVOS DADOS
