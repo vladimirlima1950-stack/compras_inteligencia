@@ -156,6 +156,35 @@ def run(
 
 
 
+    if idioma.upper() == "EN":
+
+        aba_1 = "Executive Summary"
+        aba_2 = "Monthly Purchases"
+        aba_3 = "Top Suppliers"
+        aba_4 = "ABC Suppliers"
+        aba_5 = "Top Products"
+        aba_6 = "Product Database"
+        aba_7 = "ABC Products"
+        aba_8 = "Top Opportunities"
+        aba_9 = "Savings Opportunities"
+        aba_10 = "Price Variation"
+        aba_11 = "Historical Evolution"
+
+    else:
+
+        aba_1 = "Resumo Executivo"
+        aba_2 = "Compras Mensais"
+        aba_3 = "Top Fornecedores"
+        aba_4 = "ABC Fornecedores"
+        aba_5 = "Top Produtos"
+        aba_6 = "Base Produtos"
+        aba_7 = "ABC Produtos"
+        aba_8 = "Top Oportunidades"
+        aba_9 = "Oportunidades de Economia"
+        aba_10 = "Variação de Preços"
+        aba_11 = "Evolução Histórica"
+
+
 
     payload = {
 
@@ -207,27 +236,27 @@ def run(
                    font-size:15px;
                    color:#333;'>
 
-            <li>Resumo Executivo</li>
+            <li>{aba_1}</li>
 
-            <li>Compras Mensais</li>
+            <li>{aba_2}</li>
 
-            <li>Top Fornecedores</li>
+            <li>{aba_3}</li>
 
-            <li>ABC Fornecedores</li>
+            <li>{aba_4}</li>
 
-            <li>Top Produtos</li>
+            <li>{aba_5}</li>
 
-            <li>Base Produtos</li>
+            <li>{aba_6}</li>
             
-            <li>ABC Produtos</li>
+            <li>{aba_7}</li>
 
-            <li>Top Oportunidades</li>
+            <li>{aba_8}</li>
 
-            <li>Oportunidades de Economia</li>
+            <li>{aba_9}</li>
 
-            <li>Variação de Preços</li>
+            <li>{aba_10}</li>
 
-            <li>Evolução Histórica</li>
+            <li>{aba_11}</li>
             
             
 
