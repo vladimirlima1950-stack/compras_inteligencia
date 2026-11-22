@@ -83,10 +83,12 @@ async def upload_compras(
 @app.get("/processar_compras")
 def executar_processamento(
     email: str,
-    nome: str
+    nome: str,
+    idioma: str = "PT"
 ):
 
     return processar_compras(
         email_cliente=email,
-        nome_cliente=nome
+        nome_cliente=nome,
+        idioma=idioma
     )
