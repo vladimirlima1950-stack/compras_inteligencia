@@ -67,13 +67,34 @@ def run(
         else "Cliente"
     )
 
-
     if idioma.upper() == "EN":
 
-        assunto = (
-            "Purchasing Intelligence - "
-            "Report Available"
+        saudacao = f"Hello, {primeiro_nome}!"
+
+        introducao = (
+            "The Purchasing Intelligence report "
+            "has been successfully processed "
+            "and is ready for analysis."
         )
+
+    else:
+
+        saudacao = f"Olá, {primeiro_nome}!"
+
+        introducao = (
+            "O relatório do módulo "
+            "Compras Inteligência foi processado "
+            "com sucesso e já está disponível para análise."
+        )
+
+
+
+        if idioma.upper() == "EN":
+
+            assunto = (
+                "Purchasing Intelligence - "
+                "Report Available"
+            )
 
     else:
 
@@ -104,7 +125,7 @@ def run(
                   font-size:15px;
                   color:#333;'>
 
-            Olá, {primeiro_nome}!
+            {saudacao}
 
         </p>
 
@@ -112,11 +133,7 @@ def run(
                   font-size:15px;
                   color:#333;'>
 
-            O relatório do módulo
-            <strong>
-            Compras Inteligência
-            </strong>
-            foi processado com sucesso e já está disponível para análise.
+            {introducao}
 
         </p>
 
