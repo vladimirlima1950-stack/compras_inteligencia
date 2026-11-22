@@ -161,7 +161,19 @@ def run(
         )
 
 
+    if idioma.upper() == "EN":
 
+        texto_anomalia = (
+            "Some opportunities classified as "
+            "ANOMALY may result from:"
+        )
+
+    else:
+
+        texto_anomalia = (
+            "Algumas oportunidades classificadas "
+            "como ANOMALIA podem decorrer de:"
+        )
 
 
 
@@ -252,10 +264,7 @@ def run(
                   font-size:15px;
                   color:#333;'>
 
-            Algumas oportunidades
-            classificadas como
-            <strong>ANOMALIA</strong>
-            podem decorrer de:
+            {texto_anomalia}
 
         </p>
 
