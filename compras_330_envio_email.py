@@ -67,6 +67,25 @@ def run(
         else "Cliente"
     )
 
+
+    if idioma.upper() == "EN":
+
+        assunto = (
+            "Purchasing Intelligence - "
+            "Report Available"
+        )
+
+    else:
+
+        assunto = (
+            "Compras Inteligência - "
+            "Relatório Disponível"
+        )
+
+
+
+
+
     payload = {
 
         "from":
@@ -77,8 +96,7 @@ def run(
         email_destino,
 
         "subject":
-        "Compras Inteligência - "
-        "Relatório Disponível",
+        assunto,
 
         "html": f"""
 
