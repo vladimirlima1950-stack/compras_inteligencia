@@ -185,6 +185,54 @@ def run(
         aba_11 = "Evolução Histórica"
 
 
+    if idioma.upper() == "EN":
+
+        recomendacao = (
+            "We recommend evaluating each opportunity "
+            "before making negotiation decisions."
+        )
+
+    else:
+
+        recomendacao = (
+            "Recomendamos avaliar cada oportunidade "
+            "antes de tomar decisões de negociação."
+        )
+
+    if idioma.upper() == "EN":
+
+        encerramento = "Kind regards,"
+
+    else:
+
+        encerramento = "Atenciosamente,"
+
+    if idioma.upper() == "EN":
+
+        anomalia_1 = "Differences in unit of measure"
+
+        anomalia_2 = "Packaging differences"
+
+        anomalia_3 = "Specific commercial conditions"
+
+        anomalia_4 = "Promotional purchases"
+
+        anomalia_5 = "Potential master data inconsistencies"
+
+    else:
+
+        anomalia_1 = "Diferenças de unidade de medida"
+
+        anomalia_2 = "Diferenças de embalagem"
+
+        anomalia_3 = "Condições comerciais específicas"
+
+        anomalia_4 = "Compras promocionais"
+
+        anomalia_5 = "Possíveis inconsistências cadastrais"
+
+
+
 
     payload = {
 
@@ -280,33 +328,33 @@ def run(
                    font-size:15px;
                    color:#333;'>
 
-            <li>Diferenças de unidade de medida</li>
+            <li>{anomalia_1}</li>
 
-            <li>Diferenças de embalagem</li>
+            <li>{anomalia_2}</li>
 
-            <li>Condições comerciais específicas</li>
+            <li>{anomalia_3}</li>
 
-            <li>Compras promocionais</li>
+            <li>{anomalia_4}</li>
 
-            <li>Possíveis inconsistências cadastrais</li>
+            <li>{anomalia_5}</li>
 
         </ul>
+
+
+
 
         <p style='font-family:Arial;
                   font-size:15px;
                   color:#333;'>
 
-            Recomendamos avaliar cada
-            oportunidade antes de tomar
-            decisões de negociação.
-
+            {recomendacao}
         </p>
 
         <p style='font-family:Arial;
                   font-size:15px;
                   color:#333;'>
 
-            Atenciosamente,
+            {encerramento}
 
         </p>
 
