@@ -46,15 +46,20 @@ def exportar_historico_compras(
     )
 
 
+def run(
+    caminho_banco,
+    idioma="PT"
+):
 
-
-
-def run(caminho_banco):
+    print(
+        f"IDIOMA RELATORIO = {idioma}"
+    )
 
     con = duckdb.connect(
         caminho_banco,
         read_only=False
     )
+
 
     arquivo_saida = (
         "compras_inteligencia_relatorio.xlsx"

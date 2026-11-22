@@ -227,7 +227,8 @@ def processar_compras(
     )
 
     arquivo_excel = relatorio_excel(
-        caminho_banco
+        caminho_banco,
+        idioma
     )
     
     
