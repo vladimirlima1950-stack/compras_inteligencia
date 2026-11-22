@@ -118,7 +118,8 @@ from compras_330_envio_email import (
 
 def processar_compras(
     email_cliente,
-    nome_cliente
+    nome_cliente,
+    idioma="PT"
 ):
 
     resultado = validar_arquivo(
@@ -238,7 +239,8 @@ def processar_compras(
     enviar_email(
         arquivo_excel,
         email_cliente,
-        nome_cliente
+        nome_cliente,
+        idioma
     )
 
 
