@@ -126,6 +126,33 @@ def run(
         )
 
 
+    if idioma.upper() == "EN":
+
+        planilha = (
+            "The attached Excel workbook contains "
+            "the main indicators, analyses and opportunities "
+            "identified during the evaluated period."
+        )
+
+        conteudo_relatorio = (
+            "The report contains:"
+        )
+
+    else:
+
+        planilha = (
+            "A planilha Excel segue anexada contendo "
+            "os principais indicadores, análises e oportunidades "
+            "identificadas no período avaliado."
+        )
+
+        conteudo_relatorio = (
+            "O relatório contém:"
+        )
+
+
+
+
 
     payload = {
 
@@ -161,8 +188,7 @@ def run(
                   font-size:15px;
                   color:#333;'>
 
-            A planilha Excel segue anexada contendo os principais indicadores, análises e oportunidades identificadas no
-            período avaliado.
+            {planilha}
 
         </p>
 
@@ -170,7 +196,7 @@ def run(
                   font-size:15px;
                   color:#333;'>
 
-            O relatório contém:
+            {conteudo_relatorio}
 
         </p>
 
