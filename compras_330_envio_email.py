@@ -12,7 +12,9 @@ import requests
 def run(
         arquivo_xlsx: str,
         email_destino: str,
-        nome: str = "Cliente"
+        nome: str = "Cliente",
+        idioma: str = "PT"
+        
 ):
 
     print(
