@@ -89,12 +89,12 @@ def run(
 
 
 
-        if idioma.upper() == "EN":
+    if idioma.upper() == "EN":
 
-            assunto = (
-                "Purchasing Intelligence - "
-                "Report Available"
-            )
+        assunto = (
+            "Purchasing Intelligence - "
+            "Report Available"
+        )
 
     else:
 
