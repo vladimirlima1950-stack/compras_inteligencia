@@ -73,25 +73,49 @@ def converter_numero(valor):
 # DATAS EXCEL
 # =====================================================
 
-def converter_data(coluna):
 
-    resultado = pd.to_datetime(
-        coluna,
-        dayfirst=True,
-        errors="coerce"
-    )
 
-    mascara = resultado.isna()
+def converter_data(coluna, idioma="PT"):
 
-    if mascara.any():
+    if idioma.upper() == "EN":
 
-        resultado.loc[mascara] = pd.to_datetime(
-            coluna.loc[mascara],
-            yearfirst=True,
+        resultado = pd.to_datetime(
+            coluna,
+            format="%m/%d/%Y",
             errors="coerce"
         )
 
+        mascara = resultado.isna()
+
+        if mascara.any():
+
+            resultado.loc[mascara] = pd.to_datetime(
+                coluna.loc[mascara],
+                yearfirst=True,
+                errors="coerce"
+            )
+
+    else:
+
+        resultado = pd.to_datetime(
+            coluna,
+            dayfirst=True,
+            errors="coerce"
+        )
+
+        mascara = resultado.isna()
+
+        if mascara.any():
+
+            resultado.loc[mascara] = pd.to_datetime(
+                coluna.loc[mascara],
+                yearfirst=True,
+                errors="coerce"
+            )
+
     return resultado
+
+
 
 
 # =====================================================
@@ -169,7 +193,8 @@ def obter_ultimo_arquivo():
 
 def processar_compras(
     email_cliente,
-    nome_cliente
+    nome_cliente,
+    idioma="PT"
 ):
     
     
@@ -277,7 +302,8 @@ def processar_compras(
         # --------------------------------
 
         df["data_nf"] = converter_data(
-            df["data_nf"]
+            df["data_nf"],
+            idioma
         )
         
         # --------------------------------
