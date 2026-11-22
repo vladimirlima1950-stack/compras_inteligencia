@@ -138,6 +138,12 @@ def run(
             "The report contains:"
         )
 
+        historico = (
+            "The Historical Evolution worksheet presents the chronological purchasing history by item, allowing analysis of supplier evolution, unit cost evolution, purchased quantities and total amounts throughout the evaluated period."
+        )
+
+
+
     else:
 
         planilha = (
@@ -149,6 +155,12 @@ def run(
         conteudo_relatorio = (
             "O relatório contém:"
         )
+
+        historico = (
+            "A aba Evolução Histórica apresenta o histórico cronológico das compras por item, permitindo analisar a evolução dos fornecedores, dos custos unitários, das quantidades adquiridas e dos valores totais comprados ao longo do período avaliado."
+        )
+
+
 
 
 
@@ -231,9 +243,7 @@ def run(
         </ul>
         
         <ul>
-        A aba Evolução Histórica apresenta o histórico cronológico das compras por item, permitindo analisar a
-        evolução dos fornecedores, dos custos unitários, das quantidades adquiridas e dos valores totais
-        comprados ao longo do período avaliado.
+        {historico}
         
         </ul>
         
