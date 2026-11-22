@@ -103,27 +103,6 @@ def run(
             "Relatório Disponível"
         )
 
-    if idioma.upper() == "EN":
-
-        planilha = (
-            "The attached Excel workbook contains "
-            "the main indicators, analyses and opportunities "
-            "identified during the evaluated period."
-        )
-
-        conteudo_relatorio = (
-            "The report contains:"
-        )
-
-    else:
-
-        planilha = (
-            {planilha}
-        )
-
-        conteudo_relatorio = (
-            {conteudo_relatorio}
-        )
 
 
     if idioma.upper() == "EN":
