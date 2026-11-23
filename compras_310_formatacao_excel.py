@@ -762,10 +762,10 @@ def run(
             wb[abas["top_savings"]]
         )
 
-    if "Oportunidades de Economia" in wb.sheetnames:
+    if abas["saving_completo"] in wb.sheetnames:
 
         formatar_saving_completo(
-            wb["Oportunidades de Economia"]
+            wb[abas["saving_completo"]]
         )
 
 
@@ -828,10 +828,10 @@ def run(
     # SAVING
     # ========================================================
 
-    if "Oportunidades de Economia" in wb.sheetnames:
+    if abas["saving_completo"] in wb.sheetnames:
 
         colorir_status(
-            wb["Oportunidades de Economia"]
+            wb[abas["saving_completo"]]
         )
 
     # ========================================================
