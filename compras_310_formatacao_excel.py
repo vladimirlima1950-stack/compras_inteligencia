@@ -725,9 +725,9 @@ def run(
 
     reconstruir_resumo(ws)
     
-    if "Compras Mensais" in wb.sheetnames:
+    if abas["compras"] in wb.sheetnames:
         formatar_compras_mensais(
-            wb["Compras Mensais"]
+            wb["compras"]
         )
 
     if "Top Fornecedores" in wb.sheetnames:
