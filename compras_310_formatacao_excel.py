@@ -741,10 +741,10 @@ def run(
             wb[abas["abc_fornecedores"]]
         )
 
-    if "Top Produtos" in wb.sheetnames:
+    if abas["top_produtos"] in wb.sheetnames:
 
         formatar_top_produtos(
-            wb["Top Produtos"]
+            wb[abas["top_produtos"]]
         )
 
 
