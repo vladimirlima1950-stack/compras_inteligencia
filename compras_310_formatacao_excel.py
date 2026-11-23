@@ -747,7 +747,8 @@ def run(
     if "Evolução Histórica" in wb.sheetnames:
 
         formatar_evolucao_historica(
-            wb["Evolução Histórica"]
+            wb["Evolução Histórica"],
+            idioma
         )
 
 
