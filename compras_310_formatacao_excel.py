@@ -748,10 +748,10 @@ def run(
         )
 
 
-    if "Base Produtos" in wb.sheetnames:
+    if abas["base_produtos"] in wb.sheetnames:
 
         formatar_base_produtos(
-            wb["Base Produtos"]
+            wb[abas["base_produtos"]]
         )
 
     if "Top Oportunidades" in wb.sheetnames:
