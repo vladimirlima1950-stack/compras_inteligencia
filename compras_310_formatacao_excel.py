@@ -730,10 +730,10 @@ def run(
             wb[abas["compras"]]
         )
 
-    if "Top Fornecedores" in wb.sheetnames:
+    if abas["top_fornecedores"] in wb.sheetnames:
 
         formatar_top_fornecedores(
-            wb["Top Fornecedores"]
+            wb[abas["top_fornecedores"]]
         )
 
     if "ABC Fornecedores" in wb.sheetnames:
