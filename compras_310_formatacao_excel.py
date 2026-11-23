@@ -754,12 +754,12 @@ def run(
             wb[abas["base_produtos"]]
         )
 
-    if "Top Oportunidades" in wb.sheetnames:
+    if abas["top_savings"] in wb.sheetnames:
         
                
 
         formatar_top_savings(
-            wb["Top Oportunidades"]
+            wb[abas["top_savings"]]
         )
 
     if "Oportunidades de Economia" in wb.sheetnames:
@@ -776,10 +776,10 @@ def run(
             wb["Variação de Preços"]
         )
 
-    if "ABC Produtos" in wb.sheetnames:
+    if abas["abc_produtos"] in wb.sheetnames:
 
         formatar_abc_produtos(
-            wb["ABC Produtos"]
+            wb[abas["abc_produtos"]]
         )
 
     if "Evolução Histórica" in wb.sheetnames:
@@ -818,10 +818,10 @@ def run(
             wb[abas["abc_fornecedores"]]
         )
 
-    if "ABC Produtos" in wb.sheetnames:
+    if abas["abc_produtos"] in wb.sheetnames:
 
         colorir_coluna_abc(
-            wb["ABC Produtos"]
+            wb[abas["abc_produtos"]]
         )
 
     # ========================================================
