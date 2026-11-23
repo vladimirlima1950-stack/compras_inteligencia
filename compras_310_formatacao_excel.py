@@ -770,10 +770,10 @@ def run(
 
 
 
-    if "Variação de Preços" in wb.sheetnames:
+    if abas["inflacao"] in wb.sheetnames:
 
         formatar_inflacao(
-            wb["Variação de Preços"]
+            wb[abas["inflacao"]]
         )
 
     if abas["abc_produtos"] in wb.sheetnames:

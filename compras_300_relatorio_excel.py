@@ -300,7 +300,7 @@ def run(
 
         df.to_excel(
             writer,
-            sheet_name="Variação de Preços",
+            sheet_name=abas["inflacao"],
             index=False
         )
 
