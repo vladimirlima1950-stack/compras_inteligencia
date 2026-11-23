@@ -736,10 +736,9 @@ def run(
             wb[abas["top_fornecedores"]]
         )
 
-    if "ABC Fornecedores" in wb.sheetnames:
-
+    if abas["abc_fornecedores"] in wb.sheetnames:
         formatar_abc_fornecedores(
-            wb["ABC Fornecedores"]
+            wb[abas["abc_fornecedores"]]
         )
 
     if "Top Produtos" in wb.sheetnames:
@@ -813,10 +812,10 @@ def run(
     # ABC
     # ========================================================
 
-    if "ABC Fornecedores" in wb.sheetnames:
+    if abas["abc_fornecedores"] in wb.sheetnames:
 
         colorir_coluna_abc(
-            wb["ABC Fornecedores"]
+            wb[abas["abc_fornecedores"]]
         )
 
     if "ABC Produtos" in wb.sheetnames:
