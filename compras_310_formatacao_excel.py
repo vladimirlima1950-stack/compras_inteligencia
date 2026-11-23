@@ -668,6 +668,43 @@ def run(
     arquivo_excel,
     idioma="PT"
 ):
+    
+    if idioma.upper() == "EN":
+
+        abas = {
+            "resumo": "Executive Summary",
+            "compras": "Monthly Purchases",
+            "top_fornecedores": "Top Suppliers",
+            "abc_fornecedores": "Supplier ABC Analysis",
+            "top_produtos": "Top Products",
+            "base_produtos": "Product Database",
+            "abc_produtos": "Product ABC Analysis",
+            "top_savings": "Top Opportunities",
+            "saving_completo": "Savings Opportunities",
+            "inflacao": "Price Variation",
+            "historico": "Historical Evolution"
+        }
+
+    else:
+
+        abas = {
+            "resumo": "Resumo Executivo",
+            "compras": "Compras Mensais",
+            "top_fornecedores": "Top Fornecedores",
+            "abc_fornecedores": "ABC Fornecedores",
+            "top_produtos": "Top Produtos",
+            "base_produtos": "Base Produtos",
+            "abc_produtos": "ABC Produtos",
+            "top_savings": "Top Oportunidades",
+            "saving_completo": "Oportunidades de Economia",
+            "inflacao": "Variação de Preços",
+            "historico": "Evolução Histórica"
+        }
+    
+    
+    
+    
+    
     wb = load_workbook(
         arquivo_excel
     )
@@ -682,7 +719,9 @@ def run(
     # RESUMO EXECUTIVO
     # ========================================================
 
-    ws = wb["Resumo Executivo"]
+    
+    
+    ws = wb[abas["resumo"]]
 
     reconstruir_resumo(ws)
     
