@@ -624,7 +624,10 @@ def formatar_inflacao(ws):
 
 
 
-def formatar_evolucao_historica(ws):
+def formatar_evolucao_historica(
+    ws,
+    idioma="PT"
+    ):
 
     cabecalhos = {
         "codigo_produto": "Código do Item",
@@ -643,7 +646,10 @@ def formatar_evolucao_historica(ws):
     for row in ws.iter_rows(min_row=2):
 
         # Data
-        row[1].number_format = 'dd/mm/yyyy'
+        if idioma.upper() == "EN":
+            row[1].number_format = 'mm/dd/yyyy'
+        else:
+            row[1].number_format = 'dd/mm/yyyy'
 
         # Custo Unitário
         row[3].number_format = '#,##0.0000'
