@@ -782,10 +782,10 @@ def run(
             wb[abas["abc_produtos"]]
         )
 
-    if "Evolução Histórica" in wb.sheetnames:
+    if abas["historico"] in wb.sheetnames:
 
         formatar_evolucao_historica(
-            wb["Evolução Histórica"],
+            wb[abas["historico"]],
             idioma
         )
 

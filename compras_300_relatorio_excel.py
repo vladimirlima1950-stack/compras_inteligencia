@@ -14,7 +14,8 @@ import pandas as pd
 
 def exportar_historico_compras(
     con,
-    writer
+    writer,
+    abas
 ):
 
     df = con.execute("""
@@ -37,7 +38,7 @@ def exportar_historico_compras(
 
     df.to_excel(
         writer,
-        sheet_name="Evolução Histórica",
+        sheet_name=abas["historico"],
         index=False
     )
 
@@ -314,7 +315,8 @@ def run(
 
         exportar_historico_compras(
             con,
-            writer
+            writer,
+            abas
         )
 
 
