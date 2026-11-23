@@ -727,7 +727,7 @@ def run(
     
     if abas["compras"] in wb.sheetnames:
         formatar_compras_mensais(
-            wb["compras"]
+            wb[abas["compras"]]
         )
 
     if "Top Fornecedores" in wb.sheetnames:
