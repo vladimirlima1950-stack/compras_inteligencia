@@ -117,7 +117,7 @@ def run(
 
         df.to_excel(
             writer,
-            sheet_name=abas["Resumo Executivo"],
+            sheet_name=abas["resumo"],
             index=False
         )
 
