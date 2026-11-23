@@ -233,7 +233,8 @@ def processar_compras(
     
     
     arquivo_excel = formatar_excel(
-        arquivo_excel
+        arquivo_excel,
+        idioma
     )
     
     

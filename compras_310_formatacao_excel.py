@@ -657,16 +657,18 @@ def formatar_evolucao_historica(ws):
 
 
 
-
-def run(arquivo_excel):
-
+    
+def run(
+    arquivo_excel,
+    idioma="PT"
+):
     wb = load_workbook(
         arquivo_excel
     )
-
-    
-    
-    
+ 
+    print(
+        f"IDIOMA FORMATACAO = {idioma}"
+    )
     
 
 
