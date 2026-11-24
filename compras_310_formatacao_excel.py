@@ -540,7 +540,7 @@ def formatar_top_produtos(
         idioma="PT"
         ):
 
-        t = obter_textos(idioma)
+    t = obter_textos(idioma)
 
 
     cabecalhos = {
