@@ -12,6 +12,141 @@ from openpyxl.styles import (
 )
 
 
+def obter_textos(idioma="PT"):
+
+    if idioma.upper() == "EN":
+
+        return {
+
+            "Ano": "Year",
+            "Ano-Mês": "Year-Month",
+
+            "Classe ABC": "ABC Class",
+
+            "Custo Atual": "Current Cost",
+
+            "Fornecedor": "Supplier",
+            "Fornecedor Atual": "Current Supplier",
+            "Fornecedor Menor Custo Histórico":
+                "Lowest-Cost Historical Supplier",
+
+            "Fornecedores": "Suppliers",
+
+            "Indicador": "Indicator",
+
+            "Itens Avaliados": "Items Evaluated",
+            "Itens com Aumento":
+                "Items with Price Increase",
+            "Itens com Redução":
+                "Items with Price Reduction",
+
+            "Menor Custo Histórico":
+                "Lowest Historical Cost",
+
+            "Mês": "Month",
+
+            "Participação (%)":
+                "Share (%)",
+
+            "Participação Acumulada (%)":
+                "Cumulative Share (%)",
+
+            "Potencial Economia (%)":
+                "Savings Potential (%)",
+
+            "Potencial Economia (R$)":
+                "Savings Potential ($)",
+
+            "Produto": "SKU",
+            "Produtos": "SKUs",
+
+            "Quantidade Comprada":
+                "Purchased Quantity",
+
+            "Ranking": "Rank",
+
+            "Registros": "Records",
+
+            "Status": "Status",
+
+            "Último Mês":
+                "Most Recent Purchase Month",
+
+            "Valor": "Value",
+
+            "Valor Comprado":
+                "Purchase Value",
+
+            "Variação Média dos Preços(%)":
+                "Average Price Change (%)"
+
+        }
+
+    return {
+
+        "Ano": "Ano",
+        "Ano-Mês": "Ano-Mês",
+
+        "Classe ABC": "Classe ABC",
+
+        "Custo Atual": "Custo Atual",
+
+        "Fornecedor": "Fornecedor",
+        "Fornecedor Atual": "Fornecedor Atual",
+        "Fornecedor Menor Custo Histórico":
+            "Fornecedor Menor Custo Histórico",
+
+        "Fornecedores": "Fornecedores",
+
+        "Indicador": "Indicador",
+
+        "Itens Avaliados": "Itens Avaliados",
+        "Itens com Aumento": "Itens com Aumento",
+        "Itens com Redução": "Itens com Redução",
+
+        "Menor Custo Histórico":
+            "Menor Custo Histórico",
+
+        "Mês": "Mês",
+
+        "Participação (%)":
+            "Participação (%)",
+
+        "Participação Acumulada (%)":
+            "Participação Acumulada (%)",
+
+        "Potencial Economia (%)":
+            "Potencial Economia (%)",
+
+        "Potencial Economia (R$)":
+            "Potencial Economia (R$)",
+
+        "Produto": "Produto",
+        "Produtos": "Produtos",
+
+        "Quantidade Comprada":
+            "Quantidade Comprada",
+
+        "Ranking": "Ranking",
+
+        "Registros": "Registros",
+
+        "Status": "Status",
+
+        "Último Mês": "Último Mês",
+
+        "Valor": "Valor",
+
+        "Valor Comprado":
+            "Valor Comprado",
+
+        "Variação Média dos Preços(%)":
+            "Variação Média dos Preços(%)"
+
+    }
+
+
+
 def ajustar_largura(ws):
 
     for coluna in ws.columns:
@@ -400,7 +535,13 @@ def formatar_abc_fornecedores(ws):
         row[4].number_format = '#,##0.00'
 
 
-def formatar_top_produtos(ws):
+def formatar_top_produtos(
+        ws,
+        idioma="PT"
+        ):
+
+        t = obter_textos(idioma)
+
 
     cabecalhos = {
         "ranking": "Ranking",
