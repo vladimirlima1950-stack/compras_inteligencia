@@ -22,8 +22,14 @@ def obter_textos(idioma="PT"):
             "Ano-Mês": "Year-Month",
 
             "Classe ABC": "ABC Class",
+            
+            "Código do Item": "SKU",
 
             "Custo Atual": "Current Cost",
+            
+            "Custo Total": "Total Cost",
+
+            "Data da Compra": "Purchase Date",
 
             "Fornecedor": "Supplier",
             "Fornecedor Atual": "Current Supplier",
@@ -54,7 +60,7 @@ def obter_textos(idioma="PT"):
             "Potencial Economia (%)":
                 "Savings Potential (%)",
 
-            "Potencial Economia (R$)":
+            "Potencial Economia ($)":
                 "Savings Potential ($)",
 
             "Produto": "SKU",
@@ -62,6 +68,8 @@ def obter_textos(idioma="PT"):
 
             "Quantidade Comprada":
                 "Purchased Quantity",
+                
+            "Quantidade": "Quantity",
 
             "Ranking": "Rank",
 
@@ -71,6 +79,7 @@ def obter_textos(idioma="PT"):
 
             "Último Mês":
                 "Most Recent Purchase Month",
+            "Custo Unitário": "Unit Cost",
 
             "Valor": "Value",
 
@@ -88,8 +97,16 @@ def obter_textos(idioma="PT"):
         "Ano-Mês": "Ano-Mês",
 
         "Classe ABC": "Classe ABC",
+        
+        "Código do Item": "Código do Item",
 
         "Custo Atual": "Custo Atual",
+        
+        "Custo Total": "Custo Total",
+        
+        "Custo Unitário": "Custo Unitário",
+        
+        "Data da Compra": "Data da Compra",
 
         "Fornecedor": "Fornecedor",
         "Fornecedor Atual": "Fornecedor Atual",
@@ -118,11 +135,13 @@ def obter_textos(idioma="PT"):
         "Potencial Economia (%)":
             "Potencial Economia (%)",
 
-        "Potencial Economia (R$)":
-            "Potencial Economia (R$)",
+        "Potencial Economia ($)":
+            "Potencial Economia ($)",
 
         "Produto": "Produto",
         "Produtos": "Produtos",
+        
+        "Quantidade": "Quantidade",
 
         "Quantidade Comprada":
             "Quantidade Comprada",
@@ -175,7 +194,10 @@ def ajustar_largura(ws):
         ].width = largura + 3
 
 
-def formatar_cabecalho(ws):
+def formatar_cabecalho(
+    ws,
+    idioma = "PT"
+    ):
 
     azul = PatternFill(
         "solid",
@@ -258,146 +280,75 @@ def colorir_status(ws):
                 )
 
 
-def reconstruir_resumo(ws):
+def reconstruir_resumo(ws, idioma="PT"):
+    t = obter_textos(idioma)
+    en = idioma.upper() == "EN"
 
     dados = {}
+    cabecalhos = [celula.value for celula in ws[1]]
+    valores = [celula.value for celula in ws[2]]
 
-    cabecalhos = []
-
-    valores = []
-
-    for celula in ws[1]:
-
-        cabecalhos.append(
-            celula.value
-        )
-
-    for celula in ws[2]:
-
-        valores.append(
-            celula.value
-        )
-
-    for chave, valor in zip(
-        cabecalhos,
-        valores
-    ):
-
+    for chave, valor in zip(cabecalhos, valores):
         dados[chave] = valor
 
-    ws.delete_rows(
-        1,
-        ws.max_row
-    )
+    ws.delete_rows(1, ws.max_row)
 
-    ws["A1"] = "Indicador"
-    ws["B1"] = "Valor"
+    ws["A1"] = t["Indicador"]
+    ws["B1"] = t["Valor"]
 
-    indicadores = [
-
-        ("Valor Total Comprado",
-         dados["valor_total_comprado"]),
-
-        ("Quantidade Comprada",
-         dados["quantidade_total_comprada"]),
-
-        ("Produtos Distintos",
-         dados["produtos_distintos"]),
-
-        ("Fornecedores Distintos",
-         dados["fornecedores_distintos"]),
-
-        ("Meses Avaliados",
-         dados["meses_periodo"]),
-
-        ("Compra Média Mensal",
-         dados["compra_media_mensal"]),
-
-        ("Maior Mês",
-         dados["maior_mes_compra"]),
-
-        ("Valor do Maior Mês",
-         dados["valor_maior_mes"]),
-
-        ("Menor Mês",
-         dados["menor_mes_compra"]),
-
-        ("Valor do Menor Mês",
-         dados["valor_menor_mes"]),
-         
-         ("IPCA Acumulado (%)",
-         dados["ipca_acumulado"]),
-
-        ("IGPM Acumulado (%)",
-         dados["igpm_acumulado"]),
-
-        ("IPAM Acumulado (%)",
-         dados["ipam_acumulado"]),
-
-        ("IPADI Acumulado (%)",
-         dados["ipadi_acumulado"]),
-                 
-         
-
-        ("Oportunidades Totais",
-         dados["oportunidades_totais"]),
-
-        ("Oportunidades Normais",
-         dados["qtd_normal"]),
-
-        ("Oportunidades Atenção",
-         dados["qtd_atencao"]),
-
-        ("Oportunidades Anomalia",
-         dados["qtd_anomalia"]),
-
-        ("Potencial Total de Economia",
-         dados["saving_total"]),
-
-        ("Potencial Médio de Economia",
-         dados["saving_medio"]),
-
-        ("Maior Potencial de Economia",
-         dados["maior_saving"]),
-
-        ("Maior Potencial de Economia Normal",
-         dados["maior_saving_normal"]),
-
-        ("Maior Potencial de Economia Atenção",
-         dados["maior_saving_atencao"]),
-
-        ("Maior Potencial de Economia Anomalia",
-         dados["maior_saving_anomalia"]),
-
-        ("Variação Média dos Preços",
-         dados["inflacao_media_periodo"])
-
+    # Cada item: (rótulo_pt, rótulo_en, chave_dados, tipo_formato)
+    definicao = [
+        ("Valor Total Comprado", "Total Purchase Value", "valor_total_comprado", "2_casas"),
+        ("Quantidade Comprada", "Total Purchased Quantity", "quantidade_total_comprada", "2_casas"),
+        ("Produtos Distintos", "Distinct SKUs", "produtos_distintos", "inteiro"),
+        ("Fornecedores Distintos", "Distinct Suppliers", "fornecedores_distintos", "inteiro"),
+        ("Meses Avaliados", "Months Evaluated", "meses_periodo", "inteiro"),
+        ("Compra Média Mensal", "Average Monthly Purchase", "compra_media_mensal", "2_casas"),
+        ("Maior Mês", "Highest Month", "maior_mes_compra", "texto"),
+        ("Valor do Maior Mês", "Highest Month Value", "valor_maior_mes", "2_casas"),
+        ("Menor Mês", "Lowest Month", "menor_mes_compra", "texto"),
+        ("Valor do Menor Mês", "Lowest Month Value", "valor_menor_mes", "2_casas"),
+        ("IPCA Acumulado (%)", "CPI Accumulated (%)", "ipca_acumulado", "percentual"),
+        ("IGPM Acumulado (%)", "PPI Finished Goods Accumulated (%)", "igpm_acumulado", "percentual"),
+        ("IPAM Acumulado (%)", "PPI Commodities Accumulated (%)", "ipam_acumulado", "percentual"),
+        ("IPADI Acumulado (%)", "PPI Intermediate Accumulated (%)", "ipadi_acumulado", "percentual"),
+        ("Oportunidades Totais", "Total Opportunities", "oportunidades_totais", "inteiro"),
+        ("Oportunidades Normais", "Normal Opportunities", "qtd_normal", "inteiro"),
+        ("Oportunidades Atenção", "Attention Opportunities", "qtd_atencao", "inteiro"),
+        ("Oportunidades Anomalia", "Anomaly Opportunities", "qtd_anomalia", "inteiro"),
+        ("Potencial Total de Economia", "Total Savings Potential", "saving_total", "2_casas"),
+        ("Potencial Médio de Economia", "Average Savings Potential", "saving_medio", "2_casas"),
+        ("Maior Potencial de Economia", "Highest Savings Potential", "maior_saving", "2_casas"),
+        ("Maior Potencial de Economia Normal", "Highest Normal Savings Potential", "maior_saving_normal", "2_casas"),
+        ("Maior Potencial de Economia Atenção", "Highest Attention Savings Potential", "maior_saving_atencao", "2_casas"),
+        ("Maior Potencial de Economia Anomalia", "Highest Anomaly Savings Potential", "maior_saving_anomalia", "2_casas"),
+        ("Variação Média dos Preços", "Average Price Change (%)", "inflacao_media_periodo", "percentual"),
     ]
 
+    formatos_por_linha = {}
     linha = 2
 
-    for indicador, valor in indicadores:
+    for rotulo_pt, rotulo_en, chave, tipo_fmt in definicao:
+        rotulo = rotulo_en if en else rotulo_pt
+        valor = dados.get(chave)
 
-        ws.cell(
-            linha,
-            1,
-            indicador
-        )
-
-        ws.cell(
-            linha,
-            2,
-            valor
-        )
-
+        ws.cell(linha, 1, rotulo)
+        cel_valor = ws.cell(linha, 2, valor)
+        formatos_por_linha[linha] = tipo_fmt
         linha += 1
 
-    formatar_cabecalho(ws)
-    formatar_valores_resumo(ws)
+    formatar_cabecalho(ws, idioma)
+    formatar_valores_resumo(ws, idioma, formatos_por_linha)
 
 
-def formatar_valores_resumo(ws):
 
+
+def formatar_valores_resumo(
+    ws,
+    idioma = "PT"
+    ):
+
+    t = obter_textos(idioma)
 
     indicadores_2_casas = {
         "Valor Total Comprado",
@@ -457,17 +408,22 @@ def formatar_valores_resumo(ws):
 
     
     
-def formatar_compras_mensais(ws):
+def formatar_compras_mensais(
+    ws,
+    idioma = "PT"
+    ):
+
+    t = obter_textos(idioma)
 
     cabecalhos = {
-        "ano_mes": "Ano-Mês",
-        "ano": "Ano",
-        "mes": "Mês",
-        "valor_comprado": "Valor Comprado",
-        "quantidade_comprada": "Quantidade Comprada",
-        "fornecedores": "Fornecedores",
-        "produtos": "Produtos",
-        "registros": "Registros"
+        "ano_mes": t["Ano-Mês"],
+        "ano": t["Ano"],
+        "mes": t["Mês"],
+        "valor_comprado": t["Valor Comprado"],
+        "quantidade_comprada": t["Quantidade Comprada"],
+        "fornecedores": t["Fornecedores"],
+        "produtos": t["Produtos"],
+        "registros": t["Registros"]
     }
 
     for celula in ws[1]:
@@ -512,15 +468,20 @@ def formatar_top_fornecedores(
 
 
 
-def formatar_abc_fornecedores(ws):
+def formatar_abc_fornecedores(
+    ws,
+    idioma = "PT"
+    ):
+        
+    t = obter_textos(idioma)
 
     cabecalhos = {
-        "ranking": "Ranking",
-        "codigo_fornecedor": "Fornecedor",
-        "valor_comprado": "Valor Comprado",
-        "percentual": "Participação (%)",
-        "percentual_acumulado": "Participação Acumulada (%)",
-        "classe": "Classe ABC"
+        "ranking": t["Ranking"],
+        "codigo_fornecedor": t["Fornecedor"],
+        "valor_comprado": t["Valor Comprado"],
+        "percentual": t["Participação (%)"],
+        "percentual_acumulado": t["Participação Acumulada (%)"],
+        "classe": t["Classe ABC"]
     }
 
     for celula in ws[1]:
@@ -575,7 +536,7 @@ def formatar_top_produtos(
 
 def formatar_base_produtos(
     ws,
-    idioma
+    idioma = "PT"
 ):
 
     t = obter_textos(idioma)
@@ -600,15 +561,21 @@ def formatar_base_produtos(
 
         row[3].number_format = '#,##0.00'
 
-def formatar_abc_produtos(ws):
+def formatar_abc_produtos(
+    ws,
+    idioma = "PT"
+    ):
+        
+        
+    t = obter_textos(idioma)
 
     cabecalhos = {
-        "ranking": "Ranking",
-        "codigo_produto": "Produto",
-        "valor_comprado": "Valor Comprado",
-        "percentual": "Participação (%)",
-        "percentual_acumulado": "Participação Acumulada (%)",
-        "classe": "Classe ABC"
+        "ranking": t["Ranking"],
+        "codigo_produto": t["Produto"],
+        "valor_comprado": t["Valor Comprado"],
+        "percentual": t["Participação (%)"],
+        "percentual_acumulado": t["Participação Acumulada (%)"],
+        "classe": t["Classe ABC"]
     }
 
     for celula in ws[1]:
@@ -631,35 +598,38 @@ def formatar_abc_produtos(ws):
 
 
     
-def formatar_top_savings(ws):
-    
-    
+def formatar_top_savings(
+    ws,
+    idioma = "PT"
+    ):
+        
+    t = obter_textos(idioma)
 
     cabecalhos = {
 
-        "ranking": "Ranking",
+        "ranking": t["Ranking"],
 
-        "codigo_produto": "Produto",
+        "codigo_produto": t["Produto"],
 
-        "codigo_fornecedor": "Fornecedor Atual",
+        "codigo_fornecedor": t["Fornecedor Atual"],
 
-        "ultimo_mes": "Último Mês",
+        "ultimo_mes": t["Último Mês"],
 
-        "custo_atual": "Custo Atual",
+        "custo_atual": t["Custo Atual"],
 
         "menor_custo_historico":
-            "Menor Custo Histórico",
+            t["Menor Custo Histórico"],
 
         "fornecedor_menor_custo_historico":
-            "Fornecedor Menor Custo Histórico",
+            t["Fornecedor Menor Custo Histórico"],
 
         "saving_absoluto":
-            "Potencial Economia (R$)",
+            t["Potencial Economia ($)"],
 
         "saving_percentual":
-            "Potencial Economia (%)",
+            t["Potencial Economia (%)"],
 
-        "status": "Status"
+        "status": t["Status"]
     }
 
     for celula in ws[1]:
@@ -683,7 +653,7 @@ def formatar_top_savings(ws):
         # Fornecedor Menor Custo Histórico
         row[6].number_format = '@'
 
-        # Potencial Economia (R$)
+        # Potencial Economia ($)
         row[7].number_format = '#,##0.00'
 
         # Potencial Economia (%)
@@ -691,36 +661,39 @@ def formatar_top_savings(ws):
 
 
 
-def formatar_saving_completo(ws):
+def formatar_saving_completo(
+    ws,
+    idioma = "PT"
+    ):
     
-    
+    t = obter_textos(idioma)
 
     
     cabecalhos = {
 
-        "ranking": "Ranking",
+        "ranking": t["Ranking"],
 
-        "codigo_produto": "Produto",
+        "codigo_produto": t["Produto"],
 
-        "codigo_fornecedor": "Fornecedor Atual",
+        "codigo_fornecedor": t["Fornecedor Atual"],
 
-        "ultimo_mes": "Último Mês",
+        "ultimo_mes": t["Último Mês"],
 
-        "custo_atual": "Custo Atual",
+        "custo_atual": t["Custo Atual"],
 
         "menor_custo_historico":
-            "Menor Custo Histórico",
+            t["Menor Custo Histórico"],
 
         "fornecedor_menor_custo_historico":
-            "Fornecedor Menor Custo Histórico",
+            t["Fornecedor Menor Custo Histórico"],
 
         "saving_absoluto":
-            "Potencial Economia (R$)",
+            t["Potencial Economia ($)"],
 
         "saving_percentual":
-            "Potencial Economia (%)",
+            t["Potencial Economia (%)"],
 
-        "status": "Status"
+        "status": t["Status"]
     }
     
     
@@ -747,7 +720,7 @@ def formatar_saving_completo(ws):
         # Fornecedor Menor Custo Histórico
         row[6].number_format = '@'
 
-        # Potencial Economia (R$)
+        # Potencial Economia ($)
         row[7].number_format = '#,##0.00'
 
         # Potencial Economia (%)
@@ -755,14 +728,19 @@ def formatar_saving_completo(ws):
 
 
 
-def formatar_inflacao(ws):
+def formatar_inflacao(
+    ws,
+    idioma = "PT"
+    ):
+
+    t = obter_textos(idioma)
 
     cabecalhos = {
-        "ano_mes": "Ano-Mês",
-        "itens_avaliados": "Itens Avaliados",
-        "itens_com_aumento": "Itens com Aumento",
-        "itens_com_reducao": "Itens com Redução",
-        "inflacao_media": "Variação Média dos Preços(%)"
+        "ano_mes": t["Ano-Mês"],
+        "itens_avaliados": t["Itens Avaliados"],
+        "itens_com_aumento": t["Itens com Aumento"],
+        "itens_com_reducao": t["Itens com Redução"],
+        "inflacao_media": t["Variação Média dos Preços(%)]"
     }
 
     for celula in ws[1]:
@@ -784,14 +762,16 @@ def formatar_evolucao_historica(
     ws,
     idioma="PT"
     ):
+        
+    t = obter_textos(idioma)
 
     cabecalhos = {
-        "codigo_produto": "Código do Item",
-        "data_compra": "Data da Compra",
-        "codigo_fornecedor": "Fornecedor",
-        "custo_unitario": "Custo Unitário",
-        "quantidade": "Quantidade",
-        "custo_total": "Custo Total"
+        "codigo_produto": t["Código do Item"],
+        "data_compra": t["Data da Compra"],
+        "codigo_fornecedor": t["Fornecedor"],
+        "custo_unitario": t["Custo Unitário"],
+        "quantidade": t["Quantidade"],
+        "custo_total": t["Custo Total"]
     }
 
     for celula in ws[1]:
@@ -879,7 +859,7 @@ def run(
     
     ws = wb[abas["resumo"]]
 
-    reconstruir_resumo(ws)
+    reconstruir_resumo(ws, idioma)
     
     if abas["compras"] in wb.sheetnames:
         formatar_compras_mensais(
