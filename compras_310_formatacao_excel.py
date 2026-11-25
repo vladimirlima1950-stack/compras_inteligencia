@@ -338,7 +338,7 @@ def reconstruir_resumo(ws, idioma="PT"):
         linha += 1
 
     formatar_cabecalho(ws, idioma)
-    formatar_valores_resumo(ws, idioma, formatos_por_linha)
+    formatar_valores_resumo(ws, idioma)
 
 
 
