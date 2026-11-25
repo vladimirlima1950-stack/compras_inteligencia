@@ -483,13 +483,18 @@ def formatar_compras_mensais(ws):
         row[6].number_format = '#,##0'
         row[7].number_format = '#,##0'
 
-def formatar_top_fornecedores(ws):
+def formatar_top_fornecedores(
+    ws,
+    idioma="PT"
+    ):
+        
+    t = obter_textos(idioma)
 
     cabecalhos = {
-        "ranking": "Ranking",
-        "codigo_fornecedor": "Fornecedor",
-        "valor_comprado": "Valor Comprado",
-        "percentual": "Participação (%)"
+        "ranking": t["Ranking"],
+        "fornecedor": t["Fornecedor"],
+        "valor_comprado": t["Valor Comprado"],
+        "percentual": t["Participação (%)"]
     }
 
     for celula in ws[1]:
@@ -878,18 +883,21 @@ def run(
     
     if abas["compras"] in wb.sheetnames:
         formatar_compras_mensais(
-            wb[abas["compras"]]
+            wb[abas["compras"]],
+            idioma
         )
 
     if abas["top_fornecedores"] in wb.sheetnames:
 
         formatar_top_fornecedores(
-            wb[abas["top_fornecedores"]]
+            wb[abas["top_fornecedores"]],
+            idioma
         )
 
     if abas["abc_fornecedores"] in wb.sheetnames:
         formatar_abc_fornecedores(
-            wb[abas["abc_fornecedores"]]
+            wb[abas["abc_fornecedores"]],
+            idioma
         )
 
     if abas["top_produtos"] in wb.sheetnames:
@@ -909,16 +917,16 @@ def run(
 
     if abas["top_savings"] in wb.sheetnames:
         
-               
-
-        formatar_top_savings(
-            wb[abas["top_savings"]]
+         formatar_top_savings(
+            wb[abas["top_savings"]],
+            idioma
         )
 
     if abas["saving_completo"] in wb.sheetnames:
 
         formatar_saving_completo(
-            wb[abas["saving_completo"]]
+            wb[abas["saving_completo"]],
+            idioma
         )
 
 
@@ -926,13 +934,15 @@ def run(
     if abas["inflacao"] in wb.sheetnames:
 
         formatar_inflacao(
-            wb[abas["inflacao"]]
+            wb[abas["inflacao"]],
+            idioma
         )
 
     if abas["abc_produtos"] in wb.sheetnames:
 
         formatar_abc_produtos(
-            wb[abas["abc_produtos"]]
+            wb[abas["abc_produtos"]],
+            idioma
         )
 
     if abas["historico"] in wb.sheetnames:
