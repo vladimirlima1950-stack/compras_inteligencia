@@ -568,15 +568,20 @@ def formatar_top_produtos(
 
         row[3].number_format = '#,##0.00'
 
-def formatar_base_produtos(ws):
+def formatar_base_produtos(
+    ws,
+    idioma
+):
 
+    t = obter_textos(idioma)
+    
     cabecalhos = {
-        "ranking": "Ranking",
-        "codigo_produto": "Produto",
-        "valor_comprado": "Valor Comprado",
-        "percentual": "Participação (%)"
-    }
-
+        "ranking": t["Ranking"],
+        "codigo_produto": t["Produto"],
+        "valor_comprado": t["Valor Comprado"],
+        "percentual": t["Participação (%)"]
+    }   
+    
     for celula in ws[1]:
 
         if celula.value in cabecalhos:
@@ -898,7 +903,8 @@ def run(
     if abas["base_produtos"] in wb.sheetnames:
 
         formatar_base_produtos(
-            wb[abas["base_produtos"]]
+            wb[abas["base_produtos"]],
+            idioma
         )
 
     if abas["top_savings"] in wb.sheetnames:
