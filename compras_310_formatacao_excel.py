@@ -740,7 +740,7 @@ def formatar_inflacao(
         "itens_avaliados": t["Itens Avaliados"],
         "itens_com_aumento": t["Itens com Aumento"],
         "itens_com_reducao": t["Itens com Redução"],
-        "inflacao_media": t["Variação Média dos Preços(%)]"
+        "inflacao_media": t["Variação Média dos Preços(%)"]
     }
 
     for celula in ws[1]:
