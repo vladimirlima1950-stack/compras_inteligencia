@@ -115,8 +115,8 @@ def run(
         )
 
         conteudo_relatorio = (
-            "•	Overview & Trends: Executive Summary, Monthly Purchases, and Price Variation"
-            "•	Spend Concentration: Top Suppliers, ABC Suppliers, Top Products, Product Database, and ABC Products"
+            "•	Overview & Trends: Executive Summary, Monthly Purchases, and Price Variation<br> "
+            "•	Spend Concentration: Top Suppliers, ABC Suppliers, Top Products, Product Database, and ABC Products<br>"
             "•	Opportunities & History: Top Opportunities, Savings Opportunities, and Historical Evolution"
         )
 
