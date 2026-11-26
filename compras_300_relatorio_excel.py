@@ -100,10 +100,7 @@ def run(
     )
 
 
-    arquivo_saida = (
-        "compras_inteligencia_relatorio.xlsx"
-    )
-
+    
     with pd.ExcelWriter(
         arquivo_saida,
         engine="openpyxl"
