@@ -69,12 +69,12 @@ def run(
 
     if idioma.upper() == "EN":
 
-        saudacao = f"Hello, {primeiro_nome}!"
+        saudacao = f"Hi, {primeiro_nome}!"
 
         introducao = (
-            "The Purchasing Intelligence report "
-            "has been successfully processed "
-            "and is ready for analysis."
+            "Your Purchasing Intelligence report "
+            "is ready and attached for your review. "
+            
         )
 
     else:
@@ -108,13 +108,16 @@ def run(
     if idioma.upper() == "EN":
 
         planilha = (
-            "The attached Excel workbook contains "
-            "the main indicators, analyses and opportunities "
-            "identified during the evaluated period."
+            "The workbook brings together the key metrics, "
+            "cost trends, and potential opportunities "
+            "identified over the evaluated period, organized across: "
+            
         )
 
         conteudo_relatorio = (
-            "The report contains:"
+            "•	Overview & Trends: Executive Summary, Monthly Purchases, and Price Variation"
+            "•	Spend Concentration: Top Suppliers, ABC Suppliers, Top Products, Product Database, and ABC Products"
+            "•	Opportunities & History: Top Opportunities, Savings Opportunities, and Historical Evolution"
         )
 
         historico = (
@@ -143,8 +146,8 @@ def run(
     if idioma.upper() == "EN":
 
         texto_anomalia = (
-            "Some opportunities classified as "
-            "ANOMALY may result from:"
+            "Please keep in mind that opportunities flagged "
+            "as ANOMALY may stem from:"
         )
 
     else:
@@ -201,7 +204,7 @@ def run(
 
     if idioma.upper() == "EN":
 
-        encerramento = "Kind regards,"
+        encerramento = "Best regards,"
 
     else:
 
