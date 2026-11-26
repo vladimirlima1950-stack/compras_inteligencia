@@ -53,6 +53,7 @@ def run(
 ):
     
     if idioma.upper() == "EN":
+        arquivo_saida = "purchasing_intelligence_report.xlsx"
 
         abas = {
             "resumo": "Executive Summary",
@@ -69,6 +70,7 @@ def run(
         }
 
     else:
+        arquivo_saida = "compras_inteligencia_relatorio.xlsx"
 
         abas = {
             "resumo": "Resumo Executivo",
